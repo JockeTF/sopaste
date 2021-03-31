@@ -16,3 +16,25 @@ as the minimal read-only features have been implemented. The creation of new
 pastes will not be supported, at least not initially.
 
 [Fredrik Soderlund]: https://github.com/sodr
+
+
+# Running
+
+This project requires a recent version of [Rust]. Simply invoke cargo to build
+and start the local development server.
+
+```
+$ cargo run
+```
+
+When running, the pastebin should be available on [localhost]. Make sure to use
+a release build instead for deployment to a public server.
+
+```
+$ cargo build --release
+```
+
+The executable server binary will be placed in the `target` directory.
+
+[Rust]: https://www.rust-lang.org/
+[localhost]: http://127.0.0.1:8000/
