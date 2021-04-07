@@ -5,13 +5,17 @@ body {
     color: #FFFFFF;
     font-family: Verdana, Arial, Helvetica, sans-serif;
 }
-.tester {display: none}
-.session_keeper {display: none}
+.tester {
+    display: none;
+}
+.session_keeper {
+    display: none;
+}
 ul#treelist {
     background-color: #000000;
     border: 2px solid #E1DED5;
-    margin-top:0px;
-    margin-bottom:20px;
+    margin-top: 0px;
+    margin-bottom: 20px;
     margin-left: 20px;
     margin-right: 20px;
     overflow: inherit;
@@ -26,7 +30,7 @@ ul#treelist li {
     padding-top: 4px;
 }
 ul#treelist li a {
-    color:#e55b2b;
+    color: #e55b2b;
     text-decoration: none;
 }
 ul#treelist li a:hover {
@@ -40,7 +44,7 @@ p {
     font-size: 13px;
 }
 p a {
-    color:#e55b2b;
+    color: #e55b2b;
     text-decoration: none;
 }
 p a:hover {
@@ -58,19 +62,19 @@ img {
     width: 100%;
     min-width: 784px;
 }
-#Main_header #Menu{
+#Main_header #Menu {
     margin-left: 40px;
     margin-top: 90px;
-    font-size: 22px; 
+    font-size: 22px;
     color: #251E6B;
     position: absolute;
     width: 500px;
 }
-#Main_header #Menu a{
+#Main_header #Menu a {
     color: #251E6B;
     text-decoration: none;
 }
-#Main_header #Menu a:hover{
+#Main_header #Menu a:hover {
     color: #FFFFFF;
     text-decoration: none;
 }
@@ -104,7 +108,7 @@ img {
     margin-left: 20px;
     margin-top: 10px;
     position: relative;
-    font-size: 12px; 
+    font-size: 12px;
 }
 #options #diff_info a {
     color: #251E6B;
@@ -113,29 +117,28 @@ img {
 #options #diff_info a:hover {
     color: #FFFFFF;
 }
-#options #alternatives{
+#options #alternatives {
     color: #251E6B;
-    font-size:13px;
-    margin-left:40px;
-    margin-top:8px;
-    position:relative;
-    /* width:500px; */
+    font-size: 13px;
+    margin-left: 40px;
+    margin-top: 8px;
+    position: relative;
 }
-#options #alternatives a{
+#options #alternatives a {
     color: #251E6B;
     text-decoration: none;
 }
-#options #alternatives a:hover{
+#options #alternatives a:hover {
     color: #FFFFFF;
     text-decoration: none;
 }
 #options #description {
-    font-size:12px;
-    height:40px;
-    margin-left:20px;
-    margin-top:10px;
-    min-width:200px;
-    padding-left:10px;
+    font-size: 12px;
+    height: 40px;
+    margin-left: 20px;
+    margin-top: 10px;
+    min-width: 200px;
+    padding-left: 10px;
     border-left-width: 1px;
     border-left-style: solid;
     border-left-color: #FFFFFF;
@@ -150,48 +153,47 @@ img {
     margin-left: 20px;
     margin-right: 20px;
     margin-bottom: 20px;
-    min-width: 740px;  
-    width:100%;  
-    
+    min-width: 740px;
+    width: 100%;
 }
-#diff .old{
+#diff .old {
     background-color: #450a0a;
 }
-#diff .new{
+#diff .new {
     background-color: #0a451b;
 }
-#diff .even{
+#diff .even {
     background-color: #090909;
 }
-#diff td{
+#diff td {
     font-family: monospace;
     font-size: 8pt;
     white-space: pre-wrap ;
 }
-#diff .nr1{
+#diff .nr1 {
     text-align: right;
     vertical-align: top;
-    width:0px;
-    padding-left:15px;
+    width: 0px;
+    padding-left: 15px;
     color: #0083A0;
     background-color: #000000;
 }
-#diff .nr2{
+#diff .nr2 {
     text-align: right;
     vertical-align: top;
-    width:0px;
-    padding-left:15px;
-    padding-right:10px;
+    width: 0px;
+    padding-left: 15px;
+    padding-right: 10px;
     color: #0083A0;
     background-color: #000000;
 }
-#diff .plus{
+#diff .plus {
     text-align: center;
     background-color: #1c5327;
     width: 15px;
     margin-left: 10px;
 }
-#diff .minus{
+#diff .minus {
     text-align: center;
     background-color: #5a1e1d;
     width: 15px;
@@ -210,7 +212,6 @@ img {
     margin-right: 20px;
     margin-bottom: 20px;
     min-width: 740px;
-    
 }
 #codeform {
     background-color: #000000;
@@ -225,7 +226,7 @@ img {
 .code_field {
     width: 100%;
     font-size: 12px;
-} 
+}
 #codeform #field1 {
     float: left;
     right: 0px;
@@ -261,7 +262,7 @@ img {
     margin-right: 0px;
     margin-bottom: 0px;
     margin-left: 0px;
-    width: 250px;	
+    width: 250px;
 }
 .Send {
     height: 50px;
