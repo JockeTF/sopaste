@@ -38,3 +38,13 @@ The executable server binary will be placed in the `target` directory.
 
 [Rust]: https://www.rust-lang.org/
 [localhost]: http://127.0.0.1:8000/
+
+
+# License
+
+Licensed under GNU Affero General Public License v3.0.
+
+- Copyright (C) 2008, Fredrik Soderlund.
+- Copyright (C) 2021, Joakim Soderlund.
+
+See `license.txt` for more information.
