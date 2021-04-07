@@ -1,5 +1,7 @@
 use rocket::*;
 
+mod r#static;
+
 #[get("/")]
 fn index() -> &'static str {
     "Hellopaca, World!"
@@ -7,5 +9,7 @@ fn index() -> &'static str {
 
 #[launch]
 fn initialize() -> Rocket {
-    ignite().mount("/", routes![index])
+    ignite()
+        .mount("/", routes![index])
+        .mount("/static", r#static::routes())
 }
