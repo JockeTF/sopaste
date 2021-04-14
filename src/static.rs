@@ -2,6 +2,11 @@ use rocket::http::ContentType;
 use rocket::response::Content;
 use rocket::*;
 
+#[get("/logo.png")]
+fn logo() -> Content<&'static [u8]> {
+    Content(ContentType::PNG, include_bytes!("../static/logo.png"))
+}
+
 #[get("/shadow.png")]
 fn shadow() -> Content<&'static [u8]> {
     Content(ContentType::PNG, include_bytes!("../static/shadow.png"))
@@ -13,5 +18,5 @@ fn style() -> Content<&'static str> {
 }
 
 pub fn routes() -> Vec<Route> {
-    routes![shadow, style]
+    routes![logo, shadow, style]
 }

@@ -1,15 +1,9 @@
-use rocket::*;
-
 mod r#static;
+mod templates;
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hellopaca, World!"
-}
-
-#[launch]
+#[rocket::launch]
 fn initialize() -> _ {
     rocket::build()
-        .mount("/", routes![index])
+        .mount("/", templates::routes())
         .mount("/static", r#static::routes())
 }

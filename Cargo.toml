@@ -8,5 +8,8 @@ edition = "2018"
 codegen-units = 1
 lto = true
 
+[dependencies.askama]
+version = "0.10"
+
 [dependencies.rocket]
 git = "https://github.com/SergioBenitez/Rocket.git"
