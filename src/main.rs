@@ -8,8 +8,8 @@ fn index() -> &'static str {
 }
 
 #[launch]
-fn initialize() -> Rocket {
-    ignite()
+fn initialize() -> _ {
+    rocket::build()
         .mount("/", routes![index])
         .mount("/static", r#static::routes())
 }
