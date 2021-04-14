@@ -11,5 +11,8 @@ lto = true
 [dependencies.askama]
 version = "0.10"
 
+[dependencies.crc]
+git = "https://github.com/mrhooray/crc-rs.git"
+
 [dependencies.rocket]
 git = "https://github.com/SergioBenitez/Rocket.git"

@@ -173,6 +173,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "crc"
+version = "2.0.0-rc.1"
+source = "git+https://github.com/mrhooray/crc-rs.git#2f0eb949c408908650f81fab2758308d573f3b1a"
+dependencies = [
+ "crc-catalog",
+]
+
+[[package]]
+name = "crc-catalog"
+version = "1.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ccaeedb56da03b09f598226e25e80088cb4cd25f316e6e4df7d695f0feeb1403"
+
+[[package]]
 name = "derive_more"
 version = "0.99.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1084,6 +1098,7 @@ name = "sopaste"
 version = "0.1.0"
 dependencies = [
  "askama",
+ "crc",
  "rocket",
 ]
 
