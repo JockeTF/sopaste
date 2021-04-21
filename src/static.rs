@@ -10,17 +10,17 @@ use rocket::response::Responder;
 use rocket::response::Result;
 use rocket::*;
 
-struct Static {
+struct StaticFile {
     body: &'static [u8],
     ctype: ContentType,
     digest: u64,
 }
 
-impl Static {
+impl StaticFile {
     const fn new(ctype: ContentType, body: &'static [u8]) -> Self {
         let digest = Crc::<u64>::new(&CRC_64_WE).checksum(body);
 
-        Static {
+        StaticFile {
             body,
             ctype,
             digest,
@@ -28,7 +28,7 @@ impl Static {
     }
 }
 
-impl<'r> Responder<'r, 'static> for Static {
+impl<'r> Responder<'r, 'static> for StaticFile {
     fn respond_to(self, request: &'r Request<'_>) -> Result<'static> {
         let mut response = Response::build();
 
@@ -49,7 +49,7 @@ impl<'r> Responder<'r, 'static> for Static {
             response.status(Status::NotModified);
         } else {
             response.sized_body(self.body.len(), Cursor::new(self.body));
-        };
+        }
 
         if cfg!(debug_assertions) {
             response.raw_header(cache_control, "no-cache");
@@ -63,7 +63,7 @@ impl<'r> Responder<'r, 'static> for Static {
 
 macro_rules! include_static {
     ($type:ident, $file:literal) => {
-        Static::new(
+        StaticFile::new(
             rocket::http::ContentType::$type,
             include_bytes!(concat!("../static/", $file)),
         )
@@ -71,17 +71,17 @@ macro_rules! include_static {
 }
 
 #[get("/logo.png")]
-fn logo() -> Static {
+fn logo() -> StaticFile {
     include_static!(PNG, "logo.png")
 }
 
 #[get("/shadow.png")]
-fn shadow() -> Static {
+fn shadow() -> StaticFile {
     include_static!(PNG, "shadow.png")
 }
 
 #[get("/style.css")]
-fn style() -> Static {
+fn style() -> StaticFile {
     include_static!(CSS, "style.css")
 }
 
