@@ -61,19 +61,28 @@ impl<'r> Responder<'r, 'static> for Static {
     }
 }
 
+macro_rules! include_static {
+    ($type:ident, $file:literal) => {
+        Static::new(
+            rocket::http::ContentType::$type,
+            include_bytes!(concat!("../static/", $file)),
+        )
+    };
+}
+
 #[get("/logo.png")]
 fn logo() -> Static {
-    Static::new(ContentType::PNG, include_bytes!("../static/logo.png"))
+    include_static!(PNG, "logo.png")
 }
 
 #[get("/shadow.png")]
 fn shadow() -> Static {
-    Static::new(ContentType::PNG, include_bytes!("../static/shadow.png"))
+    include_static!(PNG, "shadow.png")
 }
 
 #[get("/style.css")]
 fn style() -> Static {
-    Static::new(ContentType::CSS, include_bytes!("../static/style.css"))
+    include_static!(CSS, "style.css")
 }
 
 pub fn routes() -> Vec<Route> {
