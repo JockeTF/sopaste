@@ -16,8 +16,12 @@ git = "https://github.com/mrhooray/crc-rs.git"
 
 [dependencies.rocket]
 git = "https://github.com/SergioBenitez/Rocket.git"
+features = ["tls"]
 
 [dependencies.rocket_contrib]
 git = "https://github.com/SergioBenitez/Rocket.git"
-features = ["diesel_mysql_pool"]
-default-features = false
+features = ["databases"]
+
+[dependencies.sqlx]
+version = "0.5"
+features = ["mysql", "runtime-tokio-rustls"]
