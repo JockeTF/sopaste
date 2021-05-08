@@ -4,14 +4,14 @@ use askama::Template;
 
 use rocket::http::ContentType;
 use rocket::http::Status;
-use rocket::response::Content;
+use rocket::response::content::Custom;
 use rocket::*;
 
-type PageResult = Result<Content<String>, Status>;
+type PageResult = Result<Custom<String>, Status>;
 
 fn render(template: impl Template) -> PageResult {
     match template.render() {
-        Ok(result) => Ok(Content(ContentType::HTML, result)),
+        Ok(result) => Ok(Custom(ContentType::HTML, result)),
         Err(_) => Err(Status::InternalServerError),
     }
 }
