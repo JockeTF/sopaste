@@ -14,6 +14,9 @@ version = "0.10"
 [dependencies.crc]
 git = "https://github.com/mrhooray/crc-rs.git"
 
+[dependencies.chrono]
+version = "0.4"
+
 [dependencies.rocket]
 git = "https://github.com/SergioBenitez/Rocket.git"
 features = ["tls"]
@@ -24,4 +27,4 @@ features = ["databases"]
 
 [dependencies.sqlx]
 version = "0.5"
-features = ["mysql", "runtime-tokio-rustls"]
+features = ["chrono", "mysql", "runtime-tokio-rustls"]
