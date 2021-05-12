@@ -4,10 +4,13 @@ use rocket::fairing::Fairing;
 use rocket::fairing::Result;
 use rocket::Build;
 use rocket::Rocket;
+use rocket::State;
 
 use rocket_contrib::databases::Config;
 
 use sqlx::mysql::MySqlPool;
+
+pub type Pool<'a> = State<'a, MySqlPool>;
 
 async fn connect(rocket: Rocket<Build>) -> Result {
     let url = match Config::from("pastebin", &rocket) {
