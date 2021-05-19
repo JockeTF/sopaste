@@ -1,4 +1,5 @@
 mod models;
+mod result;
 mod r#static;
 mod storage;
 mod templates;

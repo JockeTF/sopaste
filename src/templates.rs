@@ -3,22 +3,19 @@ use std::result::Result;
 use askama::Template;
 
 use rocket::http::ContentType;
-use rocket::http::Status;
 use rocket::response::content::Custom;
 use rocket::*;
 
 use sqlx::query_as;
 
 use crate::models::TextRow;
+use crate::result::Error;
 use crate::storage::Pool;
 
-type PageResult = Result<Custom<String>, Status>;
+type PageResult = Result<Custom<String>, Error>;
 
 fn render(template: impl Template) -> PageResult {
-    match template.render() {
-        Ok(result) => Ok(Custom(ContentType::HTML, result)),
-        Err(_) => Err(Status::InternalServerError),
-    }
+    Ok(Custom(ContentType::HTML, template.render()?))
 }
 
 #[derive(Template)]
@@ -43,12 +40,8 @@ async fn raw(id: &str, pool: &Pool) -> PageResult {
             AND list.id = ?
     ";
 
-    let result = query_as(sql).bind(id).fetch_optional(&**pool).await;
-
-    let row: TextRow = result
-        .map_err(|_| Status::InternalServerError)?
-        .ok_or_else(|| Status::NotFound)?;
-
+    let query = query_as(sql).bind(id);
+    let row: TextRow = query.fetch_one(&**pool).await?;
     let text = row.text.unwrap_or_else(String::new);
 
     Ok(Custom(ContentType::Text, text))
