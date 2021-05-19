@@ -10,7 +10,7 @@ use rocket_contrib::databases::Config;
 
 use sqlx::mysql::MySqlPool;
 
-pub type Pool<'a> = State<'a, MySqlPool>;
+pub type Pool = State<MySqlPool>;
 
 async fn connect(rocket: Rocket<Build>) -> Result {
     let url = match Config::from("pastebin", &rocket) {

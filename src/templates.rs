@@ -31,7 +31,7 @@ fn index() -> PageResult {
 }
 
 #[get("/<id>/raw")]
-async fn raw(id: &str, pool: Pool<'_>) -> PageResult {
+async fn raw(id: &str, pool: &Pool) -> PageResult {
     let sql = "
         SELECT
             text.*
@@ -43,7 +43,7 @@ async fn raw(id: &str, pool: Pool<'_>) -> PageResult {
             AND list.id = ?
     ";
 
-    let result = query_as(sql).bind(id).fetch_optional(&*pool).await;
+    let result = query_as(sql).bind(id).fetch_optional(&**pool).await;
 
     let row: TextRow = result
         .map_err(|_| Status::InternalServerError)?
