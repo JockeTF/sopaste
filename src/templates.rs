@@ -37,7 +37,7 @@ async fn raw(id: &str, pool: Pool<'_>) -> PageResult {
             text.*
         FROM
             list
-            INNER JOIN text
+            INNER JOIN text ON list.id = text.id
         WHERE
             removed IS FALSE
             AND list.id = ?
