@@ -213,6 +213,9 @@ img {
     margin-bottom: 20px;
     min-width: 740px;
 }
+#code pre {
+    margin: 10px;
+}
 #codeform {
     background-color: #000000;
     border: 2px solid #E1DED5;

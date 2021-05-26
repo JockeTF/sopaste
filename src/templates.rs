@@ -25,6 +25,20 @@ fn index() -> PageResult {
     render(Index {})
 }
 
+#[derive(Template)]
+#[template(path = "paste.html")]
+struct Paste<'a> {
+    text: &'a str,
+}
+
+#[get("/<id>")]
+async fn paste(id: &str, pool: &Pool) -> PageResult {
+    let row = TextRow::find(pool, id).await?;
+    let text = row.text.unwrap_or_else(String::new);
+
+    render(Paste { text: &text })
+}
+
 #[get("/<id>/raw")]
 async fn raw(id: &str, pool: &Pool) -> PageResult {
     let row = TextRow::find(pool, id).await?;
@@ -34,5 +48,5 @@ async fn raw(id: &str, pool: &Pool) -> PageResult {
 }
 
 pub fn routes() -> Vec<Route> {
-    routes![index, raw]
+    routes![index, paste, raw]
 }
