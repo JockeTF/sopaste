@@ -6,8 +6,6 @@ use rocket::http::ContentType;
 use rocket::response::content::Custom;
 use rocket::*;
 
-use sqlx::query_as;
-
 use crate::models::TextRow;
 use crate::result::Error;
 use crate::storage::Pool;
@@ -29,19 +27,7 @@ fn index() -> PageResult {
 
 #[get("/<id>/raw")]
 async fn raw(id: &str, pool: &Pool) -> PageResult {
-    let sql = "
-        SELECT
-            text.*
-        FROM
-            list
-            INNER JOIN text ON list.id = text.id
-        WHERE
-            removed IS FALSE
-            AND list.id = ?
-    ";
-
-    let query = query_as(sql).bind(id);
-    let row: TextRow = query.fetch_one(&**pool).await?;
+    let row = TextRow::find(pool, id).await?;
     let text = row.text.unwrap_or_else(String::new);
 
     Ok(Custom(ContentType::Text, text))
