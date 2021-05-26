@@ -6,6 +6,7 @@ use rocket::http::ContentType;
 use rocket::response::content::Custom;
 use rocket::*;
 
+use crate::models::ListRow;
 use crate::models::TextRow;
 use crate::result::Error;
 use crate::storage::Pool;
@@ -28,15 +29,27 @@ fn index() -> PageResult {
 #[derive(Template)]
 #[template(path = "paste.html")]
 struct Paste<'a> {
+    name: &'a str,
+    desc: &'a str,
+    date: &'a str,
+    time: &'a str,
     text: &'a str,
 }
 
 #[get("/<id>")]
 async fn paste(id: &str, pool: &Pool) -> PageResult {
-    let row = TextRow::find(pool, id).await?;
-    let text = row.text.unwrap_or_else(String::new);
+    let list = ListRow::find(pool, id).await?;
+    let text = TextRow::find(pool, id).await?;
 
-    render(Paste { text: &text })
+    let paste = Paste {
+        name: &list.name.unwrap_or("Unkown".into()),
+        desc: &list.description.unwrap_or_else(String::new),
+        date: &list.date.to_string(),
+        time: &list.time.to_string(),
+        text: &text.text.unwrap_or_else(String::new),
+    };
+
+    render(paste)
 }
 
 #[get("/<id>/raw")]

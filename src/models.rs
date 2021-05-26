@@ -25,6 +25,22 @@ pub struct ListRow {
     pub parent: Option<String>,
 }
 
+impl ListRow {
+    pub async fn find(pool: &Pool, id: &str) -> Result<Self> {
+        let sql = "
+            SELECT
+                list.*
+            FROM
+                list
+            WHERE
+                removed IS FALSE
+                AND list.id = ?
+        ";
+
+        query_as(sql).bind(id).fetch_one(&**pool).await
+    }
+}
+
 #[derive(FromRow)]
 pub struct TextRow {
     pub id: String,

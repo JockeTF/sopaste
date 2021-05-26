@@ -1,5 +1,25 @@
 {% extends "base.html" %}
 
+{% block options %}
+  <div id="options">
+
+    <div style="float: left;" id="left">
+      <div id="info">
+        Pasted by <b>{{ name }}</b> at {{ date }}, {{ time }}.
+      </div>
+    </div>
+
+    {% if !desc.trim().is_empty() %}
+      <div style="float: left;" id="right">
+        <div id="description">
+          {{ desc }}
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+{% endblock %}
+
 {% block content %}
   <div id="code">
     <pre>{{ text }}</pre>
