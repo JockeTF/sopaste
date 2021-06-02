@@ -47,7 +47,7 @@ async fn paste(id: &str, pool: &Pool, syntax: &Syntax) -> PageResult {
     let highlighted = syntax.highlight(lang, text);
 
     let paste = Paste {
-        name: &list.name.unwrap_or("Unkown".into()),
+        name: &list.name.unwrap_or_else(|| "Anonymous".into()),
         desc: &list.description.unwrap_or_else(String::new),
         date: &list.date.to_string(),
         time: &list.time.to_string(),
