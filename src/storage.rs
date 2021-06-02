@@ -6,7 +6,7 @@ use rocket::Build;
 use rocket::Rocket;
 use rocket::State;
 
-use rocket_contrib::databases::Config;
+use rocket_sync_db_pools::Config;
 
 use sqlx::mysql::MySqlPool;
 
