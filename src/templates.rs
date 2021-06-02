@@ -10,6 +10,7 @@ use crate::models::ListRow;
 use crate::models::TextRow;
 use crate::result::Error;
 use crate::storage::Pool;
+use crate::syntax::Syntax;
 
 type PageResult = Result<Custom<String>, Error>;
 
@@ -37,16 +38,20 @@ struct Paste<'a> {
 }
 
 #[get("/<id>")]
-async fn paste(id: &str, pool: &Pool) -> PageResult {
+async fn paste(id: &str, pool: &Pool, syntax: &Syntax) -> PageResult {
     let list = ListRow::find(pool, id).await?;
     let text = TextRow::find(pool, id).await?;
+
+    let lang = &list.language.unwrap_or_else(String::new);
+    let text = &text.text.unwrap_or_else(String::new);
+    let highlighted = syntax.highlight(lang, text);
 
     let paste = Paste {
         name: &list.name.unwrap_or("Unkown".into()),
         desc: &list.description.unwrap_or_else(String::new),
         date: &list.date.to_string(),
         time: &list.time.to_string(),
-        text: &text.text.unwrap_or_else(String::new),
+        text: &highlighted,
     };
 
     render(paste)

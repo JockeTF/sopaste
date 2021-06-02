@@ -22,6 +22,6 @@
 
 {% block content %}
   <div id="code">
-    <pre>{{ text }}</pre>
+    {{ text|safe }}
   </div>
 {% endblock %}

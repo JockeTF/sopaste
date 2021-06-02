@@ -24,6 +24,9 @@ features = ["tls"]
 [dependencies.rocket_sync_db_pools]
 git = "https://github.com/SergioBenitez/Rocket.git"
 
+[dependencies.syntect]
+version = "4.5"
+
 [dependencies.sqlx]
 version = "0.5"
 features = ["chrono", "mysql", "runtime-tokio-rustls"]
