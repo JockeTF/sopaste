@@ -18,6 +18,48 @@ pastes will not be supported, at least not initially.
 [Fredrik Soderlund]: https://github.com/sodr
 
 
+# Database
+
+MySQL is used for storing paste data. Create a `Rocket.toml` file with the
+appropriate connection string. See [MySqlConnection] for more information.
+
+```toml
+[global.databases.pastebin]
+url = "mysql://username:password@localhost/pastebin"
+```
+
+The schema matches the original pastebin, allowing both to use the same
+database. New databases can be initialized using the script below.
+
+```sql
+CREATE TABLE `list` (
+  `id` varchar(9) NOT NULL,
+  `name` tinytext DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `language` tinytext DEFAULT NULL,
+  `start` int(11) DEFAULT NULL COMMENT 'line number start',
+  `password` tinytext DEFAULT NULL,
+  `ip` tinytext DEFAULT NULL,
+  `proxy` tinytext DEFAULT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `checked` date DEFAULT NULL,
+  `size` double DEFAULT NULL,
+  `removed` tinyint(1) NOT NULL DEFAULT 0,
+  `parent` varchar(9) DEFAULT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `text` (
+  `id` varchar(9) NOT NULL,
+  `text` longtext DEFAULT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+```
+
+[MySqlConnection]: https://docs.rs/sqlx/0.3.5/sqlx/struct.MySqlConnection.html
+
+
 # Running
 
 This project requires a recent version of [Rust]. Simply invoke cargo to build
