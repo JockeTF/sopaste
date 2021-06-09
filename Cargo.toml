@@ -12,7 +12,7 @@ lto = true
 version = "0.10"
 
 [dependencies.crc]
-git = "https://github.com/mrhooray/crc-rs.git"
+version = "2.0"
 
 [dependencies.chrono]
 version = "0.4"
