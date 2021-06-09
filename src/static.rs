@@ -28,11 +28,12 @@ impl StaticFile {
     }
 }
 
-impl<'r> Responder<'r, 'static> for StaticFile {
+impl<'r> Responder<'r, 'static> for &StaticFile {
     fn respond_to(self, request: &'r Request<'_>) -> Result<'static> {
         let mut response = Response::build();
 
         let etag = header::ETAG.as_str();
+        let ctype = header::CONTENT_TYPE.as_str();
         let if_none_match = header::IF_NONE_MATCH.as_str();
         let cache_control = header::CACHE_CONTROL.as_str();
 
@@ -42,7 +43,7 @@ impl<'r> Responder<'r, 'static> for StaticFile {
             .map(|header| header.parse())
             .find_map(|value| value.ok());
 
-        response.header(self.ctype);
+        response.raw_header(ctype, self.ctype.to_string());
         response.raw_header(etag, self.digest.to_string());
 
         if Some(self.digest) == digest {
@@ -62,26 +63,28 @@ impl<'r> Responder<'r, 'static> for StaticFile {
 }
 
 macro_rules! include_static {
-    ($type:ident, $file:literal) => {
-        StaticFile::new(
+    ($type:ident, $file:literal) => {{
+        const REF: &StaticFile = &StaticFile::new(
             rocket::http::ContentType::$type,
             include_bytes!(concat!("../static/", $file)),
-        )
-    };
+        );
+
+        REF
+    }};
 }
 
 #[get("/logo.png")]
-fn logo() -> StaticFile {
+const fn logo() -> &'static StaticFile {
     include_static!(PNG, "logo.png")
 }
 
 #[get("/shadow.png")]
-fn shadow() -> StaticFile {
+const fn shadow() -> &'static StaticFile {
     include_static!(PNG, "shadow.png")
 }
 
 #[get("/style.css")]
-fn style() -> StaticFile {
+const fn style() -> &'static StaticFile {
     include_static!(CSS, "style.css")
 }
 
