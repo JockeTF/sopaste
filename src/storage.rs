@@ -8,6 +8,7 @@ use rocket::State;
 
 use rocket_sync_db_pools::Config;
 
+use sqlx::mysql::MySqlConnectOptions;
 use sqlx::mysql::MySqlPool;
 
 pub type Pool = State<MySqlPool>;
@@ -21,7 +22,15 @@ async fn connect(rocket: Rocket<Build>) -> Result {
         }
     };
 
-    let pool = match MySqlPool::connect(&url).await {
+    let opts = match url.parse::<MySqlConnectOptions>() {
+        Ok(opts) => opts.charset("latin1"),
+        Err(error) => {
+            error!("{}", error);
+            return Err(rocket);
+        }
+    };
+
+    let pool = match MySqlPool::connect_with(opts).await {
         Ok(pool) => pool,
         Err(error) => {
             error!("{}", error);

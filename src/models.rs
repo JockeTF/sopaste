@@ -1,28 +1,44 @@
+use std::borrow::Cow;
+
 use chrono::NaiveDate;
 use chrono::NaiveTime;
 
 use sqlx::query_as;
 use sqlx::FromRow;
 use sqlx::Result;
+use sqlx::Type;
 
 use crate::storage::Pool;
 
+#[derive(Type)]
+#[sqlx(transparent)]
+pub struct Text(Option<Vec<u8>>);
+
+impl Text {
+    pub fn decode(&self) -> Cow<'_, str> {
+        match &self.0 {
+            Some(v) => String::from_utf8_lossy(v),
+            None => Cow::from(""),
+        }
+    }
+}
+
 #[derive(FromRow)]
 pub struct ListRow {
-    pub id: String,
-    pub name: Option<String>,
-    pub description: Option<String>,
-    pub language: Option<String>,
+    pub id: Text,
+    pub name: Text,
+    pub description: Text,
+    pub language: Text,
     pub start: i32,
-    pub password: Option<String>,
-    pub ip: Option<String>,
-    pub proxy: Option<String>,
+    pub password: Text,
+    pub ip: Text,
+    pub proxy: Text,
     pub date: NaiveDate,
     pub time: NaiveTime,
     pub checked: Option<NaiveDate>,
     pub size: Option<f64>,
     pub removed: i8,
-    pub parent: Option<String>,
+    pub parent: Text,
 }
 
 impl ListRow {
@@ -43,8 +59,8 @@ impl ListRow {
 
 #[derive(FromRow)]
 pub struct TextRow {
-    pub id: String,
-    pub text: Option<String>,
+    pub id: Text,
+    pub text: Text,
 }
 
 impl TextRow {

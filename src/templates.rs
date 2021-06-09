@@ -42,13 +42,14 @@ async fn paste(id: &str, pool: &Pool, syntax: &Syntax) -> PageResult {
     let list = ListRow::find(pool, id).await?;
     let text = TextRow::find(pool, id).await?;
 
-    let lang = &list.language.unwrap_or_else(String::new);
-    let text = &text.text.unwrap_or_else(String::new);
+    let lang = &list.language.decode();
+    let text = &text.text.decode();
+
     let highlighted = syntax.highlight(lang, text);
 
     let paste = Paste {
-        name: &list.name.unwrap_or_else(|| "Anonymous".into()),
-        desc: &list.description.unwrap_or_else(String::new),
+        name: &list.name.decode(),
+        desc: &list.description.decode(),
         date: &list.date.to_string(),
         time: &list.time.to_string(),
         text: &highlighted,
@@ -60,7 +61,7 @@ async fn paste(id: &str, pool: &Pool, syntax: &Syntax) -> PageResult {
 #[get("/<id>/raw")]
 async fn raw(id: &str, pool: &Pool) -> PageResult {
     let row = TextRow::find(pool, id).await?;
-    let text = row.text.unwrap_or_else(String::new);
+    let text = row.text.decode().into_owned();
 
     Ok(Custom(ContentType::Text, text))
 }
