@@ -1,9 +1,10 @@
 use rocket::State;
 
-use syntect::highlighting::Color;
+use syntect::easy::HighlightLines;
 use syntect::highlighting::Theme;
 use syntect::highlighting::ThemeSet;
-use syntect::html::highlighted_html_for_string;
+use syntect::html::styled_line_to_highlighted_html;
+use syntect::html::IncludeBackground;
 use syntect::parsing::SyntaxSet;
 
 pub type Syntax = State<Syntect>;
@@ -16,16 +17,16 @@ pub struct Syntect {
 impl Syntect {
     pub fn new() -> Self {
         let themes = ThemeSet::load_defaults();
-        let types = SyntaxSet::load_defaults_newlines();
+        let types = SyntaxSet::load_defaults_nonewlines();
 
-        let mut theme = themes.themes["Solarized (dark)"].clone();
-
-        theme.settings.background = Some(Color::BLACK);
+        let theme = themes.themes["Solarized (dark)"].clone();
 
         Syntect { theme, types }
     }
 
     pub fn highlight(&self, language: &str, text: &str) -> String {
+        use IncludeBackground::No;
+
         let theme = &self.theme;
         let types = &self.types;
 
@@ -33,6 +34,15 @@ impl Syntect {
             .find_syntax_by_token(language)
             .unwrap_or_else(|| types.find_syntax_plain_text());
 
-        highlighted_html_for_string(text, types, syntax, theme)
+        let mut highlighter = HighlightLines::new(syntax, theme);
+
+        let html = text
+            .lines()
+            .map(|line| highlighter.highlight(line, types))
+            .map(|line| styled_line_to_highlighted_html(&line, No))
+            .map(|line| format!("<li>{}</li>", line))
+            .collect::<String>();
+
+        format!("<pre><ol>{}</ol></pre>", html)
     }
 }

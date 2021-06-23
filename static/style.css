@@ -214,7 +214,9 @@ img {
     min-width: 740px;
 }
 #code pre {
-    margin: 10px;
+    color: #0083A0;
+    font-family: monospace;
+    font-size: 8pt;
 }
 #codeform {
     background-color: #000000;
