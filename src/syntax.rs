@@ -40,7 +40,7 @@ impl Syntect {
             .lines()
             .map(|line| highlighter.highlight(line, types))
             .map(|line| styled_line_to_highlighted_html(&line, No))
-            .map(|line| format!("<li>{}</li>", line))
+            .map(|line| format!("<li>{}<br></li>", line))
             .collect::<String>();
 
         format!("<pre><ol>{}</ol></pre>", html)
