@@ -19,7 +19,6 @@ ul#treelist {
     margin-left: 20px;
     margin-right: 20px;
     overflow: inherit;
-    min-width: 700px;
     padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 40px;
@@ -60,7 +59,6 @@ img {
     height: 130px;
     padding: 0px;
     width: 100%;
-    min-width: 784px;
 }
 #main_header #menu {
     margin-left: 40px;
@@ -68,7 +66,6 @@ img {
     font-size: 22px;
     color: #251E6B;
     position: absolute;
-    width: 500px;
 }
 #main_header #menu a {
     color: #251E6B;
@@ -97,7 +94,6 @@ img {
     border-top-width: 2px;
     border-top-style: solid;
     border-top-color: #2c1f0f;
-    min-width: 784px;
 }
 #options #info {
     margin-left: 20px;
@@ -138,10 +134,16 @@ img {
     margin-left: 20px;
     margin-top: 10px;
     min-width: 200px;
+    max-width: 580px;
     padding-left: 10px;
     border-left-width: 1px;
     border-left-style: solid;
     border-left-color: #FFFFFF;
+}
+@media (max-width: 1024px) {
+    #options #description {
+        display: none;
+    }
 }
 #diffwraper {
     margin-left: 0px;
@@ -153,7 +155,6 @@ img {
     margin-left: 20px;
     margin-right: 20px;
     margin-bottom: 20px;
-    min-width: 740px;
     width: 100%;
 }
 #diff .old {
@@ -168,7 +169,7 @@ img {
 #diff td {
     font-family: monospace;
     font-size: 8pt;
-    white-space: pre-wrap ;
+    white-space: pre-wrap;
 }
 #diff .nr1 {
     text-align: right;
@@ -203,20 +204,21 @@ img {
     background-image: url(shadow.png);
     background-repeat: repeat-x;
     height: 37px;
-    min-width: 784px;
 }
 #code {
     background-color: #000000;
     border: 2px solid #E1DED5;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 18px;
+    margin-right: 18px;
     margin-bottom: 20px;
-    min-width: 740px;
 }
 #code pre {
     color: #0083A0;
-    font-family: monospace;
     font-size: 8pt;
+    margin-left: 2px;
+    margin-right: 2px;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 #codeform {
     background-color: #000000;
@@ -225,7 +227,6 @@ img {
     margin-right: 20px;
     margin-bottom: 20px;
     overflow: inherit;
-    min-width: 700px;
     padding: 20px;
 }
 .code_field {
