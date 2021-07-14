@@ -73,6 +73,11 @@ macro_rules! include_static {
     }};
 }
 
+#[get("/favicon.svg")]
+const fn favicon() -> &'static StaticFile {
+    include_static!(SVG, "favicon.svg")
+}
+
 #[get("/logo.png")]
 const fn logo() -> &'static StaticFile {
     include_static!(PNG, "logo.png")
@@ -89,5 +94,5 @@ const fn style() -> &'static StaticFile {
 }
 
 pub fn routes() -> Vec<Route> {
-    routes![logo, shadow, style]
+    routes![favicon, logo, shadow, style]
 }

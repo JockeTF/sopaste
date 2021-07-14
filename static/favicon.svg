@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="image" width="128mm" height="128mm" version="1.1" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <g id="layer" fill="none" stroke="#808080" stroke-linecap="square" stroke-width="8">
+    <path id="line1" d="m44 28h40"/>
+    <path id="line2" d="m44 52h40"/>
+    <path id="line3" d="m44 76h40"/>
+    <path id="line4" d="m44 100h40"/>
+    <path id="paper" d="m20 4h88v120h-88v-120"/>
+  </g>
+</svg>
