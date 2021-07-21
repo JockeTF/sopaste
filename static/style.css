@@ -76,9 +76,14 @@ img {
     text-decoration: none;
 }
 #main_header #logo {
-    margin-top: 25px;
+    font-size: 42px;
+    margin-top: 20px;
     margin-left: 20px;
     position: absolute;
+}
+#main_header #logo a {
+    text-decoration: none;
+    color: white;
 }
 #main_header #fx_big {
     margin-top: 35px;
