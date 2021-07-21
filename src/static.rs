@@ -78,16 +78,11 @@ const fn favicon() -> &'static StaticFile {
     include_static!(SVG, "favicon.svg")
 }
 
-#[get("/shadow.png")]
-const fn shadow() -> &'static StaticFile {
-    include_static!(PNG, "shadow.png")
-}
-
 #[get("/style.css")]
 const fn style() -> &'static StaticFile {
     include_static!(CSS, "style.css")
 }
 
 pub fn routes() -> Vec<Route> {
-    routes![favicon, shadow, style]
+    routes![favicon, style]
 }

@@ -206,9 +206,14 @@ img {
     margin-left: 10px;
 }
 #shadow {
-    background-image: url(shadow.png);
-    background-repeat: repeat-x;
     height: 37px;
+    background: linear-gradient(
+        180deg,
+        #000000 0%,
+        #00101f 25%,
+        #00172e 50%,
+        #001f3d 100%
+    );
 }
 #code {
     background-color: #000000;
