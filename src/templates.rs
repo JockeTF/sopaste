@@ -3,7 +3,6 @@ use std::result::Result;
 use askama::Template;
 
 use rocket::http::ContentType;
-use rocket::response::content::Custom;
 use rocket::*;
 
 use crate::models::ListRow;
@@ -12,10 +11,10 @@ use crate::result::Error;
 use crate::storage::Pool;
 use crate::syntax::Syntax;
 
-type PageResult = Result<Custom<String>, Error>;
+type PageResult = Result<(ContentType, String), Error>;
 
 fn render(template: impl Template) -> PageResult {
-    Ok(Custom(ContentType::HTML, template.render()?))
+    Ok((ContentType::HTML, template.render()?))
 }
 
 #[derive(Template)]
@@ -63,7 +62,7 @@ async fn raw(id: &str, pool: &Pool) -> PageResult {
     let row = TextRow::find(pool, id).await?;
     let text = row.text.decode().into_owned();
 
-    Ok(Custom(ContentType::Text, text))
+    Ok((ContentType::Text, text))
 }
 
 pub fn routes() -> Vec<Route> {
