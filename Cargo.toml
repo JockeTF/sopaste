@@ -21,8 +21,9 @@ version = "0.4"
 git = "https://github.com/SergioBenitez/Rocket.git"
 features = ["tls"]
 
-[dependencies.rocket_sync_db_pools]
+[dependencies.rocket_db_pools]
 git = "https://github.com/SergioBenitez/Rocket.git"
+features = ["sqlx_mysql"]
 
 [dependencies.syntect]
 version = "4.5"

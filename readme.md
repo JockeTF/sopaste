@@ -25,7 +25,7 @@ appropriate connection string. See [MySqlConnection] for more information.
 
 ```toml
 [global.databases.pastebin]
-url = "mysql://username:password@localhost/pastebin"
+url = "mysql://username:password@host/pastebin?charset=latin1"
 ```
 
 The schema matches the original pastebin, allowing both to use the same
