@@ -1,3 +1,5 @@
+use rocket_db_pools::Database;
+
 mod models;
 mod result;
 mod r#static;
@@ -8,7 +10,7 @@ mod templates;
 #[rocket::launch]
 fn initialize() -> _ {
     rocket::build()
-        .attach(storage::fairing())
+        .attach(storage::Pool::init())
         .manage(syntax::Syntect::new())
         .mount("/", templates::routes())
         .mount("/static", r#static::routes())
