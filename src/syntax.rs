@@ -1,3 +1,5 @@
+use std::iter::once;
+
 use rocket::State;
 
 use syntect::easy::HighlightLines;
@@ -59,9 +61,11 @@ impl Syntect {
             .lines()
             .map(|line| highlighter.highlight(line, types))
             .map(|line| styled_line_to_highlighted_html(&line, No))
-            .map(|line| format!("<li>{}<br></li>", line))
-            .collect::<String>();
+            .map(|line| format!("<li>{}<br></li>", line));
 
-        format!("<pre><ol>{}</ol></pre>", html)
+        let prefix = once(String::from("<pre><ol>"));
+        let suffix = once(String::from("</ol></pre>"));
+
+        prefix.chain(html).chain(suffix).collect()
     }
 }
