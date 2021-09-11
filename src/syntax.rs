@@ -1,6 +1,7 @@
 use rocket::State;
 
 use syntect::easy::HighlightLines;
+use syntect::highlighting::Color;
 use syntect::highlighting::Theme;
 use syntect::highlighting::ThemeSet;
 use syntect::html::styled_line_to_highlighted_html;
@@ -8,6 +9,22 @@ use syntect::html::IncludeBackground;
 use syntect::parsing::SyntaxSet;
 
 pub type Syntax = State<Syntect>;
+
+const THEME: &str = "Solarized (dark)";
+
+fn brighten_color(color: &mut Color) {
+    color.r = color.r.saturating_add(32);
+    color.g = color.g.saturating_add(32);
+    color.b = color.b.saturating_add(32);
+}
+
+fn brighten_theme(theme: &mut Theme) {
+    theme.settings.foreground.as_mut().map(brighten_color);
+
+    for item in theme.scopes.iter_mut() {
+        item.style.foreground.as_mut().map(brighten_color);
+    }
+}
 
 pub struct Syntect {
     theme: Theme,
@@ -19,7 +36,9 @@ impl Syntect {
         let themes = ThemeSet::load_defaults();
         let types = SyntaxSet::load_defaults_nonewlines();
 
-        let theme = themes.themes["Solarized (dark)"].clone();
+        let mut theme = themes.themes[THEME].clone();
+
+        brighten_theme(&mut theme);
 
         Syntect { theme, types }
     }
