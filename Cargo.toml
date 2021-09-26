@@ -16,6 +16,8 @@ version = "2.0"
 
 [dependencies.chrono]
 version = "0.4"
+default-features = false
+features = ["clock", "std"]
 
 [dependencies.rocket]
 git = "https://github.com/SergioBenitez/Rocket.git"
@@ -26,7 +28,7 @@ git = "https://github.com/SergioBenitez/Rocket.git"
 features = ["sqlx_mysql"]
 
 [dependencies.syntect]
-version = "4.5"
+version = "4.6"
 
 [dependencies.sqlx]
 version = "0.5"
