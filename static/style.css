@@ -218,17 +218,16 @@ img {
 #code {
     background-color: #000000;
     border: 2px solid #E1DED5;
-    margin-left: 18px;
-    margin-right: 18px;
+    margin-left: 20px;
+    margin-right: 20px;
     margin-bottom: 20px;
 }
 #code pre {
     color: #0083A0;
     font-size: 8pt;
-    margin-left: 2px;
-    margin-right: 2px;
     overflow-x: auto;
     overflow-y: hidden;
+    margin: 0px;
 }
 #codeform {
     background-color: #000000;
