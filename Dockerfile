@@ -1,33 +1,33 @@
-FROM rust:slim-bullseye AS build
+FROM archlinux:base-devel AS build
 
+ARG TARGET=x86_64-unknown-linux-musl
 WORKDIR /app
 
-RUN apt-get update \
- && apt-get dist-upgrade -y \
- && chown nobody:nogroup /app
+RUN pacman -Syu --noconfirm musl rust rust-musl \
+ && useradd -ms /bin/bash builder \
+ && chown builder:builder /app
 
-USER nobody
+USER builder
 
 COPY Cargo.* ./
 RUN mkdir src \
  && touch src/lib.rs \
- && cargo build --release \
+ && cargo build --release --target=$TARGET \
  && rm -rf src
 
 COPY . .
-RUN cargo build --release \
- && strip target/release/sopaste
+RUN cargo build --release --target=$TARGET \
+ && strip target/$TARGET/release/sopaste
 
 
-FROM debian:bullseye-slim
+FROM scratch
 
+ARG TARGET=x86_64-unknown-linux-musl
 WORKDIR /app
 
-RUN apt-get update \
- && apt-get dist-upgrade -y \
- && apt-get clean
-
-COPY --from=build /app/target/release/sopaste bin
+COPY --from=build /etc/passwd /etc/passwd
+COPY --from=build /app/target/$TARGET/release/sopaste .
 
 USER nobody
-CMD ["./bin"]
+
+CMD ["/app/sopaste"]
