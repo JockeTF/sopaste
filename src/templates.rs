@@ -27,6 +27,15 @@ fn index() -> PageResult {
 }
 
 #[derive(Template)]
+#[template(path = "about.html")]
+struct About {}
+
+#[get("/about")]
+fn about() -> PageResult {
+    render(About {})
+}
+
+#[derive(Template)]
 #[template(path = "paste.html")]
 struct Paste<'a> {
     name: &'a str,
@@ -66,5 +75,5 @@ async fn raw(id: &str, pool: &Pool) -> PageResult {
 }
 
 pub fn routes() -> Vec<Route> {
-    routes![index, paste, raw]
+    routes![index, about, paste, raw]
 }
