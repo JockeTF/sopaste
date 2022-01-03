@@ -73,16 +73,21 @@ macro_rules! include_static {
     }};
 }
 
-#[get("/favicon.svg")]
+#[get("/static/favicon.svg")]
 const fn favicon() -> &'static StaticFile {
     include_static!(SVG, "favicon.svg")
 }
 
-#[get("/style.css")]
+#[get("/robots.txt")]
+const fn robots() -> &'static StaticFile {
+    include_static!(Plain, "robots.txt")
+}
+
+#[get("/static/style.css")]
 const fn style() -> &'static StaticFile {
     include_static!(CSS, "style.css")
 }
 
 pub fn routes() -> Vec<Route> {
-    routes![favicon, style]
+    routes![favicon, robots, style]
 }

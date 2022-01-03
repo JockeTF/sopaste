@@ -13,5 +13,5 @@ fn initialize() -> _ {
         .attach(storage::Pool::init())
         .manage(syntax::Syntect::new())
         .mount("/", templates::routes())
-        .mount("/static", r#static::routes())
+        .mount("/", r#static::routes())
 }
