@@ -12,6 +12,6 @@ fn initialize() -> _ {
     rocket::build()
         .attach(storage::Pool::init())
         .manage(syntax::Syntect::new())
-        .mount("/", templates::routes())
         .mount("/", r#static::routes())
+        .mount("/", templates::routes())
 }

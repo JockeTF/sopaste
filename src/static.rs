@@ -73,7 +73,7 @@ macro_rules! include_static {
     }};
 }
 
-#[get("/static/favicon.svg")]
+#[get("/favicon.svg")]
 const fn favicon() -> &'static StaticFile {
     include_static!(SVG, "favicon.svg")
 }
@@ -83,7 +83,7 @@ const fn robots() -> &'static StaticFile {
     include_static!(Plain, "robots.txt")
 }
 
-#[get("/static/style.css")]
+#[get("/style.css")]
 const fn style() -> &'static StaticFile {
     include_static!(CSS, "style.css")
 }
