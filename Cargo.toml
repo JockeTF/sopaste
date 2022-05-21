@@ -20,11 +20,11 @@ default-features = false
 features = ["clock", "std"]
 
 [dependencies.rocket]
-git = "https://github.com/SergioBenitez/Rocket.git"
+version = "0.5.0-rc.2"
 features = ["tls"]
 
 [dependencies.rocket_db_pools]
-git = "https://github.com/SergioBenitez/Rocket.git"
+version = "0.1.0-rc.2"
 features = ["sqlx_mysql"]
 
 [dependencies.syntect]
