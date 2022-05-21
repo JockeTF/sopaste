@@ -1,4 +1,4 @@
-FROM archlinux:base-devel AS build
+FROM archlinux:latest AS build
 
 ARG TARGET=x86_64-unknown-linux-musl
 WORKDIR /app
@@ -17,17 +17,12 @@ RUN mkdir src \
 
 COPY . .
 RUN cargo build --release --target=$TARGET \
- && strip target/$TARGET/release/sopaste
+ && mv target/$TARGET/release/sopaste target
 
 
 FROM scratch
 
-ARG TARGET=x86_64-unknown-linux-musl
-WORKDIR /app
+COPY --from=build /app/target/sopaste .
 
-COPY --from=build /etc/passwd /etc/passwd
-COPY --from=build /app/target/$TARGET/release/sopaste .
-
-USER nobody
-
-CMD ["/app/sopaste"]
+USER 65534:65534
+CMD ["/sopaste"]
