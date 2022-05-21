@@ -1,4 +1,4 @@
-FROM archlinux:latest AS build
+FROM docker.io/library/archlinux:latest AS build
 
 ARG TARGET=x86_64-unknown-linux-musl
 WORKDIR /app
