@@ -8,6 +8,7 @@ use rocket::Request;
 pub enum Error {
     Askama(askama::Error),
     Sqlx(sqlx::Error),
+    Status(Status),
 }
 
 impl From<askama::Error> for Error {
@@ -22,19 +23,22 @@ impl From<sqlx::Error> for Error {
     }
 }
 
+impl From<Status> for Error {
+    fn from(s: Status) -> Self {
+        Error::Status(s)
+    }
+}
+
 impl<'r> Responder<'r, 'static> for Error {
     fn respond_to(self, _: &'r Request<'_>) -> Result<'static> {
-        use Error::*;
-
-        let status = match self {
-            Sqlx(sqlx::Error::RowNotFound) => Status::NotFound,
+        Err(match self {
+            Error::Sqlx(sqlx::Error::RowNotFound) => Status::NotFound,
+            Error::Status(status) => status,
 
             error => {
                 error!("{:?}", error);
                 Status::InternalServerError
             }
-        };
-
-        Err(status)
+        })
     }
 }
