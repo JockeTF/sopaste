@@ -234,6 +234,7 @@ img {
     font-size: 8pt;
     overflow-x: auto;
     overflow-y: hidden;
+    tab-size: 4;
     margin: 0px;
 }
 #codeform {
