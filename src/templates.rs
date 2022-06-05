@@ -3,10 +3,12 @@ use std::result::Result;
 use askama::Template;
 
 use rocket::http::ContentType;
+use rocket::http::Status;
 use rocket::*;
 
 use crate::models::ListRow;
 use crate::models::TextRow;
+use crate::models::TreeItem;
 use crate::result::Error;
 use crate::storage::Pool;
 use crate::syntax::Syntax;
@@ -45,6 +47,12 @@ struct Paste<'a> {
     text: &'a str,
 }
 
+#[derive(Template)]
+#[template(path = "tree.html")]
+struct Tree {
+    items: Vec<TreeItem>,
+}
+
 #[get("/<id>")]
 async fn paste(id: &str, pool: &Pool, syntax: &Syntax) -> PageResult {
     let list = ListRow::find(pool, id).await?;
@@ -74,6 +82,17 @@ async fn raw(id: &str, pool: &Pool) -> PageResult {
     Ok((ContentType::Text, text))
 }
 
+#[get("/<id>/tree")]
+async fn tree(id: &str, pool: &Pool) -> PageResult {
+    let items = TreeItem::list(pool, id).await?;
+
+    if items.is_empty() {
+        return Err(Error::Status(Status::NotFound));
+    }
+
+    render(Tree { items })
+}
+
 pub fn routes() -> Vec<Route> {
-    routes![index, about, paste, raw]
+    routes![index, about, paste, raw, tree]
 }

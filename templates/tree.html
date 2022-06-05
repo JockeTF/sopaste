@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div id="tree">
+    <ul id="treelist">
+      {% for item in items %}
+        <li>
+          <a href="/{{ item.id.decode() }}">
+            {{ item.name.decode() }}
+          </a>
+          ({{ item.date }}, {{ item.time }})
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

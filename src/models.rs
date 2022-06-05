@@ -79,3 +79,49 @@ impl TextRow {
         query_as(sql).bind(id).fetch_one(&**pool).await
     }
 }
+
+#[derive(FromRow)]
+pub struct TreeItem {
+    pub id: Text,
+    pub name: Text,
+    pub date: NaiveDate,
+    pub time: NaiveTime,
+    pub parent: Text,
+}
+
+impl TreeItem {
+    pub async fn list(pool: &Pool, id: &str) -> Result<Vec<Self>> {
+        let sql = "
+            WITH RECURSIVE
+            cte (id, name, date, time, parent) AS (
+                SELECT
+                    id, name, date, time, parent
+                FROM
+                    list
+                WHERE
+                    removed IS FALSE
+                    AND list.id = ?
+
+                UNION SELECT
+                    rel.id, rel.name, rel.date, rel.time, rel.parent
+                FROM
+                    list AS rel
+                    INNER JOIN cte
+                        ON cte.id = rel.parent
+                        OR rel.id = cte.parent
+                WHERE
+                    rel.removed IS FALSE
+            )
+            SELECT
+                id, name, date, time, parent
+            FROM
+                cte
+            ORDER BY
+                date, time, id
+            LIMIT
+                128
+        ";
+
+        query_as(sql).bind(id).fetch_all(&**pool).await
+    }
+}
