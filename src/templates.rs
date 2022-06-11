@@ -61,7 +61,7 @@ async fn paste(id: &str, pool: &Pool, syntax: &Syntax) -> PageResult {
     let lang = &list.language.decode();
     let text = &text.text.decode();
 
-    let highlighted = syntax.highlight(lang, text);
+    let highlighted = syntax.highlight(lang, text)?;
 
     let paste = Paste {
         name: &list.name.decode(),

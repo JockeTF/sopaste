@@ -29,7 +29,7 @@ version = "0.1.0-rc.2"
 features = ["sqlx_mysql"]
 
 [dependencies.syntect]
-version = "4.6"
+version = "5.0"
 
 [dependencies.sqlx]
 version = "0.5"

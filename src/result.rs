@@ -9,6 +9,7 @@ pub enum Error {
     Askama(askama::Error),
     Sqlx(sqlx::Error),
     Status(Status),
+    Syntect(syntect::Error),
 }
 
 impl From<askama::Error> for Error {
@@ -26,6 +27,12 @@ impl From<sqlx::Error> for Error {
 impl From<Status> for Error {
     fn from(s: Status) -> Self {
         Error::Status(s)
+    }
+}
+
+impl From<syntect::Error> for Error {
+    fn from(e: syntect::Error) -> Self {
+        Error::Syntect(e)
     }
 }
 

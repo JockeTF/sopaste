@@ -9,6 +9,7 @@ use syntect::highlighting::ThemeSet;
 use syntect::html::styled_line_to_highlighted_html;
 use syntect::html::IncludeBackground;
 use syntect::parsing::SyntaxSet;
+use syntect::Error;
 
 pub type Syntax = State<Syntect>;
 
@@ -45,7 +46,7 @@ impl Syntect {
         Syntect { theme, types }
     }
 
-    pub fn highlight(&self, language: &str, text: &str) -> String {
+    pub fn highlight(&self, language: &str, text: &str) -> Result<String, Error> {
         use IncludeBackground::No;
 
         let theme = &self.theme;
@@ -57,14 +58,15 @@ impl Syntect {
 
         let mut highlighter = HighlightLines::new(syntax, theme);
 
-        let html = text
-            .lines()
-            .map(|line| highlighter.highlight(line, types))
-            .map(|line| styled_line_to_highlighted_html(&line, No))
-            .map(|line| format!("<li>{}<br></li>", line));
+        let html = text.lines().map(|line| {
+            let styled = highlighter.highlight_line(line, types)?;
+            let html = styled_line_to_highlighted_html(&styled, No)?;
 
-        let prefix = once(String::from("<pre><ol>"));
-        let suffix = once(String::from("</ol></pre>"));
+            Ok(format!("<li>{html}<br></li>"))
+        });
+
+        let prefix = once(Ok(String::from("<pre><ol>")));
+        let suffix = once(Ok(String::from("</ol></pre>")));
 
         prefix.chain(html).chain(suffix).collect()
     }
