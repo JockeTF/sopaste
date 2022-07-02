@@ -55,6 +55,8 @@ CREATE TABLE `text` (
   `text` longtext DEFAULT NULL,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE INDEX parent ON list (parent);
 ```
 
 [MySqlConnection]: https://docs.rs/sqlx/0.3.5/sqlx/struct.MySqlConnection.html
