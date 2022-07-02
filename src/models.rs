@@ -1,4 +1,7 @@
 use std::borrow::Cow;
+use std::fmt::Display;
+use std::fmt::Formatter;
+use std::fmt::Result as FmtResult;
 
 use chrono::NaiveDate;
 use chrono::NaiveTime;
@@ -10,7 +13,7 @@ use sqlx::Type;
 
 use crate::storage::Pool;
 
-#[derive(Type)]
+#[derive(Type, Hash, PartialEq, Eq)]
 #[sqlx(transparent)]
 pub struct Text(Option<Vec<u8>>);
 
@@ -20,6 +23,12 @@ impl Text {
             Some(v) => String::from_utf8_lossy(v),
             None => Cow::from(""),
         }
+    }
+}
+
+impl Display for Text {
+    fn fmt(&self, f: &mut Formatter) -> FmtResult {
+        self.decode().fmt(f)
     }
 }
 
@@ -90,6 +99,8 @@ pub struct TreeItem {
 }
 
 impl TreeItem {
+    pub const ROOT: &'static str = "";
+
     pub async fn list(pool: &Pool, id: &str) -> Result<Vec<Self>> {
         let sql = "
             WITH RECURSIVE

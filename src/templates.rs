@@ -12,6 +12,7 @@ use crate::models::TreeItem;
 use crate::result::Error;
 use crate::storage::Pool;
 use crate::syntax::Syntax;
+use crate::tree::TreeRoot;
 
 type PageResult = Result<(ContentType, String), Error>;
 
@@ -45,12 +46,6 @@ struct Paste<'a> {
     date: &'a str,
     time: &'a str,
     text: &'a str,
-}
-
-#[derive(Template)]
-#[template(path = "tree.html")]
-struct Tree {
-    items: Vec<TreeItem>,
 }
 
 #[get("/<id>")]
@@ -90,7 +85,7 @@ async fn tree(id: &str, pool: &Pool) -> PageResult {
         return Err(Error::Status(Status::NotFound));
     }
 
-    render(Tree { items })
+    render(TreeRoot::new(&items))
 }
 
 pub fn routes() -> Vec<Route> {

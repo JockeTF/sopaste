@@ -1,0 +1,12 @@
+<li>
+  <span>
+    <a href="/{{ item.id }}">{{ item.name }}</a>
+    ({{ item.date }}, {{ item.time }})
+  </span>
+
+  <ul>
+    {% for child in self.children() %}
+      {{ child|safe }}
+    {% endfor %}
+  </ul>
+</li>

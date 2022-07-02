@@ -6,6 +6,7 @@ mod r#static;
 mod storage;
 mod syntax;
 mod templates;
+mod tree;
 
 #[rocket::launch]
 fn initialize() -> _ {
