@@ -6,6 +6,13 @@ RUN apk add build-base \
  && adduser -D builder \
  && chown builder:builder /app
 
+RUN apk add lld
+
+ENV RUSTFLAGS \
+ -C link-arg=-fuse-ld=lld \
+ -C linker-plugin-lto=on \
+ -C target-cpu=btver1
+
 USER builder
 
 COPY Cargo.* ./
