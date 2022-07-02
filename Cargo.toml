@@ -13,7 +13,7 @@ strip = true
 version = "0.11"
 
 [dependencies.crc]
-version = "2.0"
+version = "3.0"
 
 [dependencies.chrono]
 version = "0.4"
