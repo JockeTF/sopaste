@@ -40,12 +40,9 @@ fn about() -> PageResult {
 
 #[derive(Template)]
 #[template(path = "paste.html")]
-struct Paste<'a> {
-    name: &'a str,
-    desc: &'a str,
-    date: &'a str,
-    time: &'a str,
-    text: &'a str,
+struct Paste {
+    list: ListRow,
+    html: String,
 }
 
 #[get("/<id>")]
@@ -55,18 +52,9 @@ async fn paste(id: &str, pool: &Pool, syntax: &Syntax) -> PageResult {
 
     let lang = &list.language.decode();
     let text = &text.text.decode();
+    let html = syntax.highlight(lang, text)?;
 
-    let highlighted = syntax.highlight(lang, text)?;
-
-    let paste = Paste {
-        name: &list.name.decode(),
-        desc: &list.description.decode(),
-        date: &list.date.to_string(),
-        time: &list.time.to_string(),
-        text: &highlighted,
-    };
-
-    render(paste)
+    render(Paste { list, html })
 }
 
 #[get("/<id>/raw")]

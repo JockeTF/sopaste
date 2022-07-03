@@ -24,6 +24,10 @@ impl Text {
             None => Cow::from(""),
         }
     }
+
+    pub fn is_blank(&self) -> bool {
+        self.decode().trim().is_empty()
+    }
 }
 
 impl Display for Text {

@@ -5,14 +5,15 @@
 
     <div style="float: left;" id="left">
       <div id="info">
-        Pasted by <b>{{ name }}</b> at {{ date }}, {{ time }}.
+        Pasted by <b>{{ list.name }}</b> at
+        {{ list.date }}, {{ list.time }}.
       </div>
     </div>
 
-    {% if !desc.trim().is_empty() %}
+    {% if !list.description.is_blank() %}
       <div style="float: left;" id="right">
         <div id="description">
-          {{ desc }}
+          {{ list.description }}
         </div>
       </div>
     {% endif %}
@@ -22,6 +23,6 @@
 
 {% block content %}
   <div id="code">
-    {{ text|safe }}
+    {{ html|safe }}
   </div>
 {% endblock %}
