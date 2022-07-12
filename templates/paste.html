@@ -8,6 +8,12 @@
         Pasted by <b>{{ list.name }}</b> at
         {{ list.date }}, {{ list.time }}.
       </div>
+
+      <div id="alternatives">
+        <span class="link active">Highlight</span> |
+        <a href="/{{ list.id }}/tree">Tree</a> |
+        <a href="/{{ list.id }}/raw">Raw</a>
+      </div>
     </div>
 
     {% if !list.description.is_blank() %}

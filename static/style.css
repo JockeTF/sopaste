@@ -125,11 +125,11 @@ img {
     margin-top: 8px;
     position: relative;
 }
-#options #alternatives a {
+#options #alternatives a, .link {
     color: #251E6B;
     text-decoration: none;
 }
-#options #alternatives a:hover {
+#options #alternatives a:hover, .link.active {
     color: #FFFFFF;
     text-decoration: none;
 }
