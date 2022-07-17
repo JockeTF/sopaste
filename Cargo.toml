@@ -24,13 +24,16 @@ features = ["clock", "std"]
 version = "0.5.0-rc.2"
 features = ["tls"]
 
-[dependencies.rocket_db_pools]
-version = "0.1.0-rc.2"
-features = ["sqlx_mysql"]
+[dependencies.sea-orm]
+version = "0.9"
+features = ["runtime-tokio-rustls", "sqlx-mysql"]
+
+[dependencies.sea-orm-rocket]
+version = "0.5"
 
 [dependencies.syntect]
 version = "5.0"
 
 [dependencies.sqlx]
-version = "0.5"
+version = "0.6"
 features = ["chrono", "mysql", "runtime-tokio-rustls"]

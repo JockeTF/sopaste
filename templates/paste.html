@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    {% if !list.description.is_blank() %}
+    {% if !list.description.trim().is_empty() %}
       <div style="float: left;" id="right">
         <div id="description">
           {{ list.description }}

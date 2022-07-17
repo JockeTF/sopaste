@@ -1,12 +1,12 @@
-use rocket_db_pools::Database;
+use sea_orm_rocket::Database;
 
-mod models;
+mod entities;
 mod result;
 mod r#static;
 mod storage;
 mod syntax;
 mod templates;
-mod tree;
+// mod tree;
 
 #[rocket::launch]
 fn initialize() -> _ {

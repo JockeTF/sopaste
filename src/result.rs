@@ -7,6 +7,7 @@ use rocket::Request;
 #[derive(Debug)]
 pub enum Error {
     Askama(askama::Error),
+    SeaOrm(sea_orm::DbErr),
     Sqlx(sqlx::Error),
     Status(Status),
     Syntect(syntect::Error),
@@ -15,6 +16,12 @@ pub enum Error {
 impl From<askama::Error> for Error {
     fn from(e: askama::Error) -> Self {
         Error::Askama(e)
+    }
+}
+
+impl From<sea_orm::DbErr> for Error {
+    fn from(e: sea_orm::DbErr) -> Self {
+        Error::SeaOrm(e)
     }
 }
 
@@ -40,6 +47,7 @@ impl<'r> Responder<'r, 'static> for Error {
     fn respond_to(self, _: &'r Request<'_>) -> Result<'static> {
         Err(match self {
             Error::Sqlx(sqlx::Error::RowNotFound) => Status::NotFound,
+            Error::SeaOrm(sea_orm::DbErr::RecordNotFound(_)) => Status::NotFound,
             Error::Status(status) => status,
 
             error => {
