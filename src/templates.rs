@@ -16,7 +16,7 @@ use crate::tree::TreeRoot;
 
 type PageResult = Result<(ContentType, String), Error>;
 
-fn render(template: impl Template) -> PageResult {
+fn render(template: &impl Template) -> PageResult {
     Ok((ContentType::HTML, template.render()?))
 }
 
@@ -26,7 +26,7 @@ struct Index {}
 
 #[get("/")]
 fn index() -> PageResult {
-    render(Index {})
+    render(&Index {})
 }
 
 #[derive(Template)]
@@ -35,7 +35,7 @@ struct About {}
 
 #[get("/about")]
 fn about() -> PageResult {
-    render(About {})
+    render(&About {})
 }
 
 #[derive(Template)]
@@ -54,7 +54,7 @@ async fn paste(id: &str, pool: &Pool, syntax: &Syntax) -> PageResult {
     let text = &text.text.decode();
     let html = syntax.highlight(lang, text)?;
 
-    render(Paste { list, html })
+    render(&Paste { list, html })
 }
 
 #[get("/<id>/raw")]
@@ -73,7 +73,7 @@ async fn tree(id: &str, pool: &Pool) -> PageResult {
         return Err(Error::Status(Status::NotFound));
     }
 
-    render(TreeRoot::new(&items))
+    render(&TreeRoot::new(&items))
 }
 
 pub fn routes() -> Vec<Route> {

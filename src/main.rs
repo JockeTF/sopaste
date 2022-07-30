@@ -1,3 +1,8 @@
+#![warn(clippy::pedantic)]
+#![allow(clippy::module_name_repetitions)]
+#![allow(clippy::no_effect_underscore_binding)]
+#![allow(clippy::wildcard_imports)]
+
 use rocket_db_pools::Database;
 
 mod models;

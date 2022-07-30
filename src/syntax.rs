@@ -24,7 +24,7 @@ fn brighten_color(color: &mut Color) {
 fn brighten_theme(theme: &mut Theme) {
     theme.settings.foreground.as_mut().map(brighten_color);
 
-    for item in theme.scopes.iter_mut() {
+    for item in &mut theme.scopes {
         item.style.foreground.as_mut().map(brighten_color);
     }
 }

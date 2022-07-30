@@ -1,4 +1,5 @@
 use std::io::Cursor;
+use std::result::Result;
 
 use crc::Crc;
 use crc::CRC_64_WE;
@@ -7,7 +8,7 @@ use rocket::http::hyper::header;
 use rocket::http::ContentType;
 use rocket::http::Status;
 use rocket::response::Responder;
-use rocket::response::Result;
+use rocket::response::Result as RocketResult;
 use rocket::*;
 
 struct StaticFile {
@@ -29,7 +30,7 @@ impl StaticFile {
 }
 
 impl<'r> Responder<'r, 'static> for &StaticFile {
-    fn respond_to(self, request: &'r Request<'_>) -> Result<'static> {
+    fn respond_to(self, request: &'r Request<'_>) -> RocketResult<'static> {
         let mut response = Response::build();
 
         let etag = header::ETAG.as_str();
@@ -40,8 +41,8 @@ impl<'r> Responder<'r, 'static> for &StaticFile {
         let digest = request
             .headers()
             .get(if_none_match)
-            .map(|header| header.parse())
-            .find_map(|value| value.ok());
+            .map(str::parse)
+            .find_map(Result::ok);
 
         response.raw_header(ctype, self.ctype.to_string());
         response.raw_header(etag, self.digest.to_string());
