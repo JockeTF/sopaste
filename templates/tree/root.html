@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block options %}
+  {{ self.menu()|safe }}
+{% endblock %}
+
 {% block content %}
   <div id="tree">
     <ul id="treelist">

@@ -75,13 +75,14 @@ async fn raw(id: &str, pool: &Pool) -> PageResult {
 
 #[get("/<id>/tree")]
 async fn tree(id: &str, pool: &Pool) -> PageResult {
+    let list = ListRow::find(pool, id).await?;
     let items = TreeItem::list(pool, id).await?;
 
     if items.is_empty() {
         return Err(Error::Status(Status::NotFound));
     }
 
-    render(&TreeRoot::new(&items))
+    render(&TreeRoot::new(&list, &items))
 }
 
 pub fn routes() -> Vec<Route> {

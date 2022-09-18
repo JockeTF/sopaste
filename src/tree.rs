@@ -5,6 +5,9 @@ use std::sync::Mutex;
 
 use askama::Template;
 
+use crate::menu::PasteMenu;
+use crate::menu::PastePage;
+use crate::models::ListRow;
 use crate::models::Text;
 use crate::models::TreeItem;
 
@@ -13,12 +16,13 @@ type ChildMap<'a> = HashMap<String, Vec<&'a TreeItem>>;
 #[derive(Template)]
 #[template(path = "tree/root.html")]
 pub struct TreeRoot<'a> {
+    list: &'a ListRow,
     items: &'a Vec<TreeItem>,
     mapping: ChildMap<'a>,
 }
 
 impl<'a> TreeRoot<'a> {
-    pub fn new(items: &'a Vec<TreeItem>) -> Self {
+    pub fn new(list: &'a ListRow, items: &'a Vec<TreeItem>) -> Self {
         let mut mapping = ChildMap::with_capacity(items.len());
 
         for item in items {
@@ -28,7 +32,11 @@ impl<'a> TreeRoot<'a> {
             children.push(item);
         }
 
-        Self { items, mapping }
+        Self {
+            list,
+            items,
+            mapping,
+        }
     }
 
     fn children(&self) -> Vec<TreeNode> {
@@ -45,6 +53,10 @@ impl<'a> TreeRoot<'a> {
                 item: target,
             })
             .collect()
+    }
+
+    fn menu(&self) -> PasteMenu {
+        PasteMenu::new(&self.list, PastePage::Tree)
     }
 }
 
