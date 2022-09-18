@@ -1,6 +1,11 @@
 <li>
   <span>
-    <a href="/{{ item.id }}">{{ item.name }}</a>
+    {% if list.id == item.id %}
+      <span class="link active">{{ item.name }}</span>
+    {% else %}
+      <a href="/{{ item.id }}">{{ item.name }}</a>
+    {% endif %}
+
     ({{ item.date }}, {{ item.time }})
   </span>
 

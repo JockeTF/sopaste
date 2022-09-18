@@ -50,13 +50,14 @@ impl<'a> TreeRoot<'a> {
             .map(|target| TreeNode {
                 breaker: breaker.clone(),
                 mapping: &self.mapping,
+                list: self.list,
                 item: target,
             })
             .collect()
     }
 
     fn menu(&self) -> PasteMenu {
-        PasteMenu::new(&self.list, PastePage::Tree)
+        PasteMenu::new(self.list, PastePage::Tree)
     }
 }
 
@@ -79,6 +80,7 @@ impl<'a> CycleBreaker<'a> {
 struct TreeNode<'a> {
     breaker: Rc<CycleBreaker<'a>>,
     mapping: &'a ChildMap<'a>,
+    list: &'a ListRow,
     item: &'a TreeItem,
 }
 
@@ -95,6 +97,7 @@ impl<'a> TreeNode<'a> {
             .map(|target| Self {
                 breaker: breaker.clone(),
                 mapping: self.mapping,
+                list: self.list,
                 item: target,
             })
             .collect()
