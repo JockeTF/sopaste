@@ -5,6 +5,7 @@
 
 use rocket_db_pools::Database;
 
+mod menu;
 mod models;
 mod result;
 mod r#static;

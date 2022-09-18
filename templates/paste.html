@@ -1,30 +1,7 @@
 {% extends "base.html" %}
 
 {% block options %}
-  <div id="options">
-
-    <div style="float: left;" id="left">
-      <div id="info">
-        Pasted by <b>{{ list.name }}</b> at
-        {{ list.date }}, {{ list.time }}.
-      </div>
-
-      <div id="alternatives">
-        <span class="link active">Highlight</span> |
-        <a href="/{{ list.id }}/tree">Tree</a> |
-        <a href="/{{ list.id }}/raw">Raw</a>
-      </div>
-    </div>
-
-    {% if !list.description.is_blank() %}
-      <div style="float: left;" id="right">
-        <div id="description">
-          {{ list.description }}
-        </div>
-      </div>
-    {% endif %}
-
-  </div>
+  {{ self.menu()|safe }}
 {% endblock %}
 
 {% block content %}

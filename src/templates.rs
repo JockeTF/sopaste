@@ -6,6 +6,8 @@ use rocket::http::ContentType;
 use rocket::http::Status;
 use rocket::*;
 
+use crate::menu::PasteMenu;
+use crate::menu::PastePage;
 use crate::models::ListRow;
 use crate::models::TextRow;
 use crate::models::TreeItem;
@@ -43,6 +45,12 @@ fn about() -> PageResult {
 struct Paste {
     list: ListRow,
     html: String,
+}
+
+impl Paste {
+    fn menu(&self) -> PasteMenu {
+        PasteMenu::new(&self.list, PastePage::Highlight)
+    }
 }
 
 #[get("/<id>")]
