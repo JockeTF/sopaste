@@ -66,6 +66,7 @@ img {
     font-size: 22px;
     color: #251E6B;
     position: absolute;
+    white-space: nowrap;
 }
 #main_header #menu a {
     color: #251E6B;
@@ -80,6 +81,7 @@ img {
     margin-top: 20px;
     margin-left: 20px;
     position: absolute;
+    white-space: nowrap;
 }
 #main_header #logo a {
     text-decoration: none;
@@ -104,6 +106,7 @@ img {
     margin-left: 20px;
     margin-top: 10px;
     position: relative;
+    white-space: nowrap;
 }
 #options #diff_info {
     margin-left: 20px;
@@ -124,6 +127,7 @@ img {
     margin-left: 40px;
     margin-top: 8px;
     position: relative;
+    white-space: nowrap;
 }
 #options #alternatives a, .link {
     color: #251E6B;
