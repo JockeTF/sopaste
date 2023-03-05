@@ -1,94 +1,87 @@
-use std::io::Cursor;
-use std::result::Result;
+use std::iter::once;
+
+use axum::headers::ETag;
+use axum::headers::Header;
+use axum::headers::IfNoneMatch;
+use axum::http::header;
+use axum::http::HeaderValue;
+use axum::http::StatusCode;
+use axum::response::IntoResponse;
+use axum::response::Response;
+use axum::routing::get;
+use axum::Router;
+use axum::TypedHeader;
 
 use crc::Crc;
 use crc::CRC_64_WE;
 
-use rocket::http::hyper::header;
-use rocket::http::ContentType;
-use rocket::http::Status;
-use rocket::response::Responder;
-use rocket::response::Result as RocketResult;
-use rocket::*;
+use const_format::formatcp;
+
+use crate::state::AppState;
 
 struct StaticFile {
     body: &'static [u8],
-    ctype: ContentType,
-    digest: u64,
+    ctype: &'static str,
+    etag: &'static str,
 }
 
 impl StaticFile {
-    const fn new(ctype: ContentType, body: &'static [u8]) -> Self {
-        let digest = Crc::<u64>::new(&CRC_64_WE).checksum(body);
+    const fn new(body: &'static [u8], ctype: &'static str, etag: &'static str) -> Self {
+        StaticFile { body, ctype, etag }
+    }
 
-        StaticFile {
-            body,
-            ctype,
-            digest,
-        }
+    fn response(&self, tags: &IfNoneMatch) -> Response {
+        let ctype = HeaderValue::from_static(self.ctype);
+        let etag = HeaderValue::from_static(self.etag);
+        let dec = ETag::decode(&mut once(&etag)).unwrap();
+
+        let mut response = if tags.precondition_passes(&dec) {
+            self.body.into_response()
+        } else {
+            StatusCode::NOT_MODIFIED.into_response()
+        };
+
+        let cache = if cfg!(debug_assertions) {
+            HeaderValue::from_static("no-cache")
+        } else {
+            HeaderValue::from_static("max-age=300")
+        };
+
+        let headers = response.headers_mut();
+        headers.insert(header::CACHE_CONTROL, cache);
+        headers.insert(header::CONTENT_TYPE, ctype);
+        headers.insert(header::ETAG, etag);
+
+        response
     }
 }
 
-impl<'r> Responder<'r, 'static> for &StaticFile {
-    fn respond_to(self, request: &'r Request<'_>) -> RocketResult<'static> {
-        let mut response = Response::build();
+macro_rules! file {
+    ($file:literal, $type:literal) => {{
+        const ALGO: Crc<u64> = Crc::<u64>::new(&CRC_64_WE);
+        const DATA: &[u8] = include_bytes!(concat!("../static/", $file));
+        const ETAG: &str = formatcp!("\"{}\"", ALGO.checksum(DATA));
+        const FILE: StaticFile = StaticFile::new(DATA, $type, ETAG);
 
-        let etag = header::ETAG.as_str();
-        let ctype = header::CONTENT_TYPE.as_str();
-        let if_none_match = header::IF_NONE_MATCH.as_str();
-        let cache_control = header::CACHE_CONTROL.as_str();
-
-        let digest = request
-            .headers()
-            .get(if_none_match)
-            .map(str::parse)
-            .find_map(Result::ok);
-
-        response.raw_header(ctype, self.ctype.to_string());
-        response.raw_header(etag, self.digest.to_string());
-
-        if Some(self.digest) == digest {
-            response.status(Status::NotModified);
-        } else {
-            response.sized_body(self.body.len(), Cursor::new(self.body));
-        }
-
-        if cfg!(debug_assertions) {
-            response.raw_header(cache_control, "no-cache");
-        } else {
-            response.raw_header(cache_control, "max-age=300");
-        }
-
-        response.ok()
-    }
-}
-
-macro_rules! include_static {
-    ($type:ident, $file:literal) => {{
-        const REF: &StaticFile = &StaticFile::new(
-            rocket::http::ContentType::$type,
-            include_bytes!(concat!("../static/", $file)),
-        );
-
-        REF
+        &FILE
     }};
 }
 
-#[get("/favicon.svg")]
-const fn favicon() -> &'static StaticFile {
-    include_static!(SVG, "favicon.svg")
+async fn favicon(TypedHeader(tags): TypedHeader<IfNoneMatch>) -> Response {
+    file!("favicon.svg", "image/svg+xml").response(&tags)
 }
 
-#[get("/robots.txt")]
-const fn robots() -> &'static StaticFile {
-    include_static!(Plain, "robots.txt")
+async fn robots(TypedHeader(tags): TypedHeader<IfNoneMatch>) -> Response {
+    file!("robots.txt", "text/plain; charset=utf-8").response(&tags)
 }
 
-#[get("/style.css")]
-const fn style() -> &'static StaticFile {
-    include_static!(CSS, "style.css")
+async fn style(TypedHeader(tags): TypedHeader<IfNoneMatch>) -> Response {
+    file!("style.css", "text/css; charset=utf-8").response(&tags)
 }
 
-pub fn routes() -> Vec<Route> {
-    routes![favicon, robots, style]
+pub fn routes() -> Router<AppState> {
+    Router::new()
+        .route("/favicon.svg", get(favicon))
+        .route("/robots.txt", get(robots))
+        .route("/style.css", get(style))
 }

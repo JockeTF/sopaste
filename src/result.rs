@@ -1,14 +1,12 @@
-use rocket::error;
-use rocket::http::Status;
-use rocket::response::Responder;
-use rocket::response::Result;
-use rocket::Request;
+use axum::http::StatusCode;
+use axum::response::IntoResponse;
+use axum::response::Response;
 
 #[derive(Debug)]
 pub enum Error {
     Askama(askama::Error),
     Sqlx(sqlx::Error),
-    Status(Status),
+    Status(StatusCode),
     Syntect(syntect::Error),
 }
 
@@ -24,8 +22,8 @@ impl From<sqlx::Error> for Error {
     }
 }
 
-impl From<Status> for Error {
-    fn from(s: Status) -> Self {
+impl From<StatusCode> for Error {
+    fn from(s: StatusCode) -> Self {
         Error::Status(s)
     }
 }
@@ -36,16 +34,18 @@ impl From<syntect::Error> for Error {
     }
 }
 
-impl<'r> Responder<'r, 'static> for Error {
-    fn respond_to(self, _: &'r Request<'_>) -> Result<'static> {
-        Err(match self {
-            Error::Sqlx(sqlx::Error::RowNotFound) => Status::NotFound,
+impl IntoResponse for Error {
+    fn into_response(self) -> Response {
+        let status = match self {
+            Error::Sqlx(sqlx::Error::RowNotFound) => StatusCode::NOT_FOUND,
             Error::Status(status) => status,
 
             error => {
-                error!("{:?}", error);
-                Status::InternalServerError
+                eprintln!("{error:?}");
+                StatusCode::INTERNAL_SERVER_ERROR
             }
-        })
+        };
+
+        (status, status.to_string()).into_response()
     }
 }

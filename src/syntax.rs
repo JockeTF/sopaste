@@ -1,7 +1,5 @@
 use std::iter::once;
 
-use rocket::State;
-
 use syntect::easy::HighlightLines;
 use syntect::highlighting::Color;
 use syntect::highlighting::Theme;
@@ -10,8 +8,6 @@ use syntect::html::styled_line_to_highlighted_html;
 use syntect::html::IncludeBackground;
 use syntect::parsing::SyntaxSet;
 use syntect::Error;
-
-pub type Syntax = State<Syntect>;
 
 const THEME: &str = "Solarized (dark)";
 

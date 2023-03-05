@@ -11,7 +11,7 @@ use sqlx::FromRow;
 use sqlx::Result;
 use sqlx::Type;
 
-use crate::storage::Pool;
+use crate::state::Pool;
 
 #[derive(Type, Hash, PartialEq, Eq)]
 #[sqlx(transparent)]
@@ -66,7 +66,7 @@ impl ListRow {
                 AND list.id = ?
         ";
 
-        query_as(sql).bind(id).fetch_one(&**pool).await
+        query_as(sql).bind(id).fetch_one(pool).await
     }
 }
 
@@ -89,7 +89,7 @@ impl TextRow {
                 AND list.id = ?
         ";
 
-        query_as(sql).bind(id).fetch_one(&**pool).await
+        query_as(sql).bind(id).fetch_one(pool).await
     }
 }
 
@@ -137,6 +137,6 @@ impl TreeItem {
                 128
         ";
 
-        query_as(sql).bind(id).fetch_all(&**pool).await
+        query_as(sql).bind(id).fetch_all(pool).await
     }
 }

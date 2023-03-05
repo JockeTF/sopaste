@@ -12,6 +12,13 @@ strip = true
 [dependencies.askama]
 version = "0.11"
 
+[dependencies.axum]
+version = "0.6.10"
+features = ["headers"]
+
+[dependencies.const_format]
+version = "0.2.30"
+
 [dependencies.crc]
 version = "3.0"
 
@@ -20,17 +27,13 @@ version = "0.4"
 default-features = false
 features = ["clock", "std"]
 
-[dependencies.rocket]
-git = "https://github.com/SergioBenitez/Rocket.git"
-features = ["tls"]
-
-[dependencies.rocket_db_pools]
-git = "https://github.com/SergioBenitez/Rocket.git"
-features = ["sqlx_mysql"]
-
 [dependencies.syntect]
 version = "5.0"
 
 [dependencies.sqlx]
 version = "0.6"
 features = ["chrono", "mysql", "runtime-tokio-rustls"]
+
+[dependencies.tokio]
+version = "1.26.0"
+features = ["macros"]

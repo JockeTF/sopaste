@@ -20,16 +20,9 @@ pastes will not be supported, at least not initially.
 
 # Database
 
-MySQL is used for storing paste data. Create a `Rocket.toml` file with the
-appropriate connection string. See [MySqlConnection] for more information.
-
-```toml
-[global.databases.pastebin]
-url = "mysql://username:password@host/pastebin?charset=latin1"
-```
-
-The schema matches the original pastebin, allowing both to use the same
-database. New databases can be initialized using the script below.
+MySQL is used for storing paste data. The schema matches the original pastebin,
+allowing both to use the same database. New databases can be initialized using
+the script below.
 
 ```sql
 CREATE TABLE `list` (
@@ -59,15 +52,17 @@ CREATE TABLE `text` (
 CREATE INDEX parent ON list (parent);
 ```
 
-[MySqlConnection]: https://docs.rs/sqlx/0.3.5/sqlx/struct.MySqlConnection.html
-
 
 # Running
 
-This project requires a recent version of [Rust]. Simply invoke cargo to build
-and start the local development server.
+This project requires a recent version of [Rust]. First, set the environment
+variables `SOPASTE_BINDING` and `SOPASTE_DATABASE`. See [MySqlConnection] for
+information about database connection strings. Then, Simply invoke cargo to
+build and start the local development server.
 
 ```
+$ export SOPASTE_BINDING='[::]:8000'
+$ export SOPASTE_DATABASE='mysql://user:pass@host/database?charset=latin1'
 $ cargo run
 ```
 
@@ -80,8 +75,9 @@ $ cargo build --release
 
 The executable server binary will be placed in the `target` directory.
 
+[localhost]: http://localhost:8000/
+[MySqlConnection]: https://docs.rs/sqlx/0.3.5/sqlx/struct.MySqlConnection.html
 [Rust]: https://www.rust-lang.org/
-[localhost]: http://127.0.0.1:8000/
 
 
 # License
