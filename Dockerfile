@@ -1,6 +1,7 @@
 FROM docker.io/library/archlinux:latest AS build
 
 ARG TARGET=x86_64-unknown-linux-musl
+ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 WORKDIR /app
 
 RUN pacman -Syu --noconfirm musl rust rust-musl \
