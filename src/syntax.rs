@@ -67,3 +67,9 @@ impl Syntect {
         prefix.chain(html).chain(suffix).collect()
     }
 }
+
+impl Default for Syntect {
+    fn default() -> Self {
+        Self::new()
+    }
+}

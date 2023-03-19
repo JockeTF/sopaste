@@ -32,9 +32,9 @@ impl<'a> PasteMenu<'a> {
         };
 
         if self.page == target {
-            format!("<span class=\"link active\">{:?}</span>", target)
+            format!("<span class=\"link active\">{target:?}</span>")
         } else {
-            format!("<a href=\"{link}\">{:?}</a>", target)
+            format!("<a href=\"{link}\">{target:?}</a>")
         }
     }
 }

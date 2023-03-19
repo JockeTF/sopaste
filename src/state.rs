@@ -18,7 +18,7 @@ impl From<MySqlConnectOptions> for AppState {
     fn from(value: MySqlConnectOptions) -> Self {
         AppState {
             storage: Pool::connect_lazy_with(value),
-            syntax: Arc::new(Syntect::new()),
+            syntax: Arc::new(Syntect::default()),
         }
     }
 }
