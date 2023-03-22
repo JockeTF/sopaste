@@ -61,7 +61,7 @@ information about database connection strings. Then, Simply invoke cargo to
 build and start the local development server.
 
 ```
-$ export SOPASTE_BINDING='[::]:8000'
+$ export SOPASTE_BINDING='[::1]:8000'
 $ export SOPASTE_DATABASE='mysql://user:pass@host/database?charset=latin1'
 $ cargo run
 ```
