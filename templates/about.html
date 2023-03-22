@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block menu %}
+  {{ crate::menu::MainMenu::About|safe }}
+{% endblock %}
+
 {% block content %}
   <p>
     Released under

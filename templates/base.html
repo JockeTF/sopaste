@@ -14,15 +14,14 @@
           Soder's Pastebin
         </a>
       </div>
-      <div id="menu">
-        <a href="/">New Paste</a> |
-        <a href="/about">About</a>
-      </div>
+      {% block menu %}
+        {{ crate::menu::MainMenu::None|safe }}
+      {% endblock %}
     </div>
-{% block options %}{% endblock %}
+    {% block options %}{% endblock %}
     <div id="shadow"></div>
     <div id="content">
-{% block content %}{% endblock %}
+      {% block content %}{% endblock %}
     </div>
   </body>
 </html>
