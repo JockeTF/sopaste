@@ -1,4 +1,7 @@
+use askama::Template;
+
 use axum::http::StatusCode;
+use axum::response::Html;
 use axum::response::IntoResponse;
 use axum::response::Response;
 
@@ -9,6 +12,10 @@ pub enum Error {
     Status(StatusCode),
     Syntect(syntect::Error),
 }
+
+#[derive(Template)]
+#[template(path = "error.html")]
+struct ErrorPage(StatusCode);
 
 impl From<askama::Error> for Error {
     fn from(e: askama::Error) -> Self {
@@ -46,6 +53,9 @@ impl IntoResponse for Error {
             }
         };
 
-        (status, status.to_string()).into_response()
+        match ErrorPage(status).render() {
+            Ok(page) => (status, Html::from(page)).into_response(),
+            Err(_) => (status, status.to_string()).into_response(),
+        }
     }
 }
