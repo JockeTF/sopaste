@@ -1,22 +1,22 @@
 <div id="options">
-  <div style="float: left;" id="left">
-    <div id="info">
+  <span id="left">
+    <span id="info">
       Pasted by <b>{{ list.name }}</b> at
       {{ list.date }}, {{ list.time }}.
-    </div>
-
-    <div id="alternatives">
-      {{ self.link(PastePage::Highlight)|safe }} |
-      {{ self.link(PastePage::Tree)|safe }} |
-      {{ self.link(PastePage::Raw)|safe }}
-    </div>
-  </div>
+    </span>
+  </span>
 
   {% if !list.description.is_blank() %}
-    <div style="float: left;" id="right">
-      <div id="description">
+    <span id="right">
+      <span id="description">
         {{ list.description }}
-      </div>
-    </div>
+      </span>
+    </span>
   {% endif %}
+
+  <div id="alternatives">
+    {{ self.link(PastePage::Highlight)|safe }} |
+    {{ self.link(PastePage::Tree)|safe }} |
+    {{ self.link(PastePage::Raw)|safe }}
+  </div>
 </div>

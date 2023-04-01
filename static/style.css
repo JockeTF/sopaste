@@ -55,17 +55,14 @@ img {
 }
 #main_header {
     background-color: #995e12;
-    margin: 0px;
-    height: 130px;
-    padding: 0px;
     width: 100%;
 }
 #main_header #menu {
-    margin-left: 40px;
-    margin-top: 90px;
+    padding-left: 40px;
+    padding-bottom: 16px;
+    padding-top: 22px;
     font-size: 22px;
     color: #251E6B;
-    position: absolute;
     white-space: nowrap;
 }
 #main_header #menu a {
@@ -78,9 +75,8 @@ img {
 }
 #main_header #logo {
     font-size: 42px;
-    margin-top: 20px;
-    margin-left: 20px;
-    position: absolute;
+    padding-top: 20px;
+    padding-left: 20px;
     white-space: nowrap;
 }
 #main_header #logo a {
@@ -90,28 +86,23 @@ img {
 #main_header #fx_big {
     margin-top: 35px;
     margin-left: 400px;
-    position: absolute;
 }
 #options {
     background-color: #A97838;
-    margin: 0px;
     width: 100%;
-    height: 60px;
-    padding: 0px;
+    padding-top: 9px;
+    padding-bottom: 4px;
     border-top-width: 2px;
     border-top-style: solid;
     border-top-color: #2c1f0f;
 }
 #options #info {
     margin-left: 20px;
-    margin-top: 10px;
-    position: relative;
     white-space: nowrap;
 }
 #options #diff_info {
     margin-left: 20px;
     margin-top: 10px;
-    position: relative;
     font-size: 12px;
 }
 #options #diff_info a {
@@ -124,9 +115,9 @@ img {
 #options #alternatives {
     color: #251E6B;
     font-size: 13px;
-    margin-left: 40px;
-    margin-top: 8px;
-    position: relative;
+    padding-left: 40px;
+    padding-top: 8px;
+    padding-bottom: 5px;
     white-space: nowrap;
 }
 #options #alternatives a, .link {
@@ -139,11 +130,7 @@ img {
 }
 #options #description {
     font-size: 12px;
-    height: 40px;
-    margin-left: 20px;
-    margin-top: 10px;
-    min-width: 200px;
-    max-width: 580px;
+    margin-left: 10px;
     padding-left: 10px;
     border-left-width: 1px;
     border-left-style: solid;
