@@ -31,9 +31,9 @@ features = ["clock", "std"]
 version = "5.0"
 
 [dependencies.sqlx]
-version = "0.6"
+version = "0.7"
 features = ["chrono", "mysql", "runtime-tokio-rustls"]
 
 [dependencies.tokio]
-version = "1.26.0"
-features = ["macros"]
+version = "1.29"
+features = ["macros", "rt-multi-thread"]
