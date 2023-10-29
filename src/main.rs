@@ -1,8 +1,5 @@
 #![warn(clippy::pedantic)]
 #![allow(clippy::module_name_repetitions)]
-#![allow(clippy::no_effect_underscore_binding)]
-#![allow(clippy::unused_async)]
-#![allow(clippy::wildcard_imports)]
 
 use axum::Router;
 use axum::Server;
