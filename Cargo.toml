@@ -1,8 +1,11 @@
 [package]
 name = "sopaste"
-version = "0.1.0"
-authors = ["Joakim Soderlund <joakim.soderlund@gmail.com>"]
 edition = "2021"
+version = "0.1.0"
+license = "AGPL-3.0"
+authors = ["Joakim Soderlund <joakim.soderlund@gmail.com>"]
+repository = "https://github.com/JockeTF/sopaste"
+readme = "readme.md"
 
 [profile.release]
 codegen-units = 1
