@@ -32,7 +32,7 @@ version = "5.0"
 
 [dependencies.sqlx]
 version = "0.7"
-features = ["chrono", "mysql", "runtime-tokio-rustls"]
+features = ["chrono", "mysql", "runtime-tokio"]
 
 [dependencies.tokio]
 version = "1.29"
