@@ -20,6 +20,7 @@ fn routes(state: AppState) -> Router {
     Router::new()
         .merge(r#static::routes())
         .merge(templates::routes())
+        .fallback(result::fallback)
         .with_state(state)
 }
 

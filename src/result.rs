@@ -59,3 +59,7 @@ impl IntoResponse for Error {
         }
     }
 }
+
+pub async fn fallback() -> Error {
+    Error::Status(StatusCode::NOT_FOUND)
+}
