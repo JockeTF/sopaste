@@ -219,6 +219,9 @@ img {
         #001f3d 100%
     );
 }
+#license {
+    max-width: 400px;
+}
 #code {
     background-color: #000000;
     border: 2px solid #E1DED5;

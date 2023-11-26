@@ -71,6 +71,10 @@ async fn favicon(TypedHeader(tags): TypedHeader<IfNoneMatch>) -> Response {
     file!("favicon.svg", "image/svg+xml").response(&tags)
 }
 
+async fn license(TypedHeader(tags): TypedHeader<IfNoneMatch>) -> Response {
+    file!("../license.txt", "text/plain; charset=utf-8").response(&tags)
+}
+
 async fn robots(TypedHeader(tags): TypedHeader<IfNoneMatch>) -> Response {
     file!("robots.txt", "text/plain; charset=utf-8").response(&tags)
 }
@@ -82,6 +86,7 @@ async fn style(TypedHeader(tags): TypedHeader<IfNoneMatch>) -> Response {
 pub fn routes() -> Router<AppState> {
     Router::new()
         .route("/favicon.svg", get(favicon))
+        .route("/license.txt", get(license))
         .route("/robots.txt", get(robots))
         .route("/style.css", get(style))
 }
