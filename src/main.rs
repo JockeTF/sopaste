@@ -4,6 +4,7 @@
 use axum::Router;
 use config::Config;
 use state::AppState;
+use std::io::Result;
 use tokio::net::TcpListener;
 
 mod config;
@@ -25,10 +26,10 @@ fn routes(state: AppState) -> Router {
 }
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<()> {
     let config = Config::new().unwrap();
     let router = routes(AppState::from(config.database));
-    let listener = TcpListener::bind(config.binding).await.unwrap();
+    let listener = TcpListener::bind(config.binding).await?;
 
-    axum::serve(listener, router).await.unwrap();
+    axum::serve(listener, router).await
 }
