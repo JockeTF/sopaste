@@ -2,9 +2,9 @@
 #![allow(clippy::module_name_repetitions)]
 
 use axum::Router;
-use axum::Server;
 use config::Config;
 use state::AppState;
+use tokio::net::TcpListener;
 
 mod config;
 mod menu;
@@ -27,8 +27,8 @@ fn routes(state: AppState) -> Router {
 #[tokio::main]
 async fn main() {
     let config = Config::new().unwrap();
-    let state = AppState::from(config.database);
-    let service = routes(state).into_make_service();
+    let router = routes(AppState::from(config.database));
+    let listener = TcpListener::bind(config.binding).await.unwrap();
 
-    Server::bind(&config.binding).serve(service).await.unwrap();
+    axum::serve(listener, router).await.unwrap();
 }

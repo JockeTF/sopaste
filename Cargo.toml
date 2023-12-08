@@ -20,8 +20,12 @@ source = []
 version = "0.12"
 
 [dependencies.axum]
-version = "0.6.10"
-features = ["headers", "macros"]
+version = "0.7.2"
+features = ["macros"]
+
+[dependencies.axum-extra]
+version = "0.9.0"
+features = ["typed-header"]
 
 [dependencies.const-fnv1a-hash]
 version = "1.1.0"

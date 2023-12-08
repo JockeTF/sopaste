@@ -1,8 +1,5 @@
 use std::iter::once;
 
-use axum::headers::ETag;
-use axum::headers::Header;
-use axum::headers::IfNoneMatch;
 use axum::http::header;
 use axum::http::HeaderValue;
 use axum::http::StatusCode;
@@ -10,7 +7,11 @@ use axum::response::IntoResponse;
 use axum::response::Response;
 use axum::routing::get;
 use axum::Router;
-use axum::TypedHeader;
+
+use axum_extra::headers::ETag;
+use axum_extra::headers::Header;
+use axum_extra::headers::IfNoneMatch;
+use axum_extra::TypedHeader;
 
 use const_fnv1a_hash::fnv1a_hash_64;
 use const_format::formatcp;
