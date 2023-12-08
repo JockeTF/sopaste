@@ -12,9 +12,7 @@ use axum::routing::get;
 use axum::Router;
 use axum::TypedHeader;
 
-use crc::Crc;
-use crc::CRC_64_WE;
-
+use const_fnv1a_hash::fnv1a_hash_64;
 use const_format::formatcp;
 
 use crate::state::AppState;
@@ -58,9 +56,8 @@ impl StaticFile {
 
 macro_rules! file {
     ($file:literal, $type:literal) => {{
-        const ALGO: Crc<u64> = Crc::<u64>::new(&CRC_64_WE);
         const DATA: &[u8] = include_bytes!(concat!("../static/", $file));
-        const ETAG: &str = formatcp!("\"{}\"", ALGO.checksum(DATA));
+        const ETAG: &str = formatcp!("\"{}\"", fnv1a_hash_64(DATA, Some(65536)));
         const FILE: StaticFile = StaticFile::new(DATA, $type, ETAG);
 
         &FILE
@@ -83,10 +80,19 @@ async fn style(TypedHeader(tags): TypedHeader<IfNoneMatch>) -> Response {
     file!("style.css", "text/css; charset=utf-8").response(&tags)
 }
 
+#[cfg(not(feature = "source"))]
+use crate::result::fallback as source;
+
+#[cfg(feature = "source")]
+async fn source(TypedHeader(tags): TypedHeader<IfNoneMatch>) -> Response {
+    file!("sopaste.tar.xz", "application/x-xz-compressed-tar").response(&tags)
+}
+
 pub fn routes() -> Router<AppState> {
     Router::new()
         .route("/favicon.svg", get(favicon))
         .route("/license.txt", get(license))
         .route("/robots.txt", get(robots))
+        .route("/sopaste.tar.xz", get(source))
         .route("/style.css", get(style))
 }

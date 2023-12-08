@@ -14,8 +14,12 @@
 
     <p>
       As stated in section 9 of AGPLv3, you do not need to accept the
-      license in order to use this website. Acceptance is only required
-      if you choose to modify or propogate any of the covered works.
+      license to use this website. Acceptance is only required if you
+      choose to modify, host, or distribute any of the covered works.
     </p>
+
+    {% if cfg!(feature = "source") %}
+      <p><a href="/sopaste.tar.xz">Source code</a> for this build.<p>
+    {% endif %}
   </div>
 {% endblock %}

@@ -12,6 +12,10 @@ codegen-units = 1
 lto = true
 strip = true
 
+[features]
+default = []
+source = []
+
 [dependencies.askama]
 version = "0.12"
 
@@ -19,11 +23,11 @@ version = "0.12"
 version = "0.6.10"
 features = ["headers", "macros"]
 
+[dependencies.const-fnv1a-hash]
+version = "1.1.0"
+
 [dependencies.const_format]
 version = "0.2.30"
-
-[dependencies.crc]
-version = "3.0"
 
 [dependencies.chrono]
 version = "0.4"
