@@ -1,11 +1,11 @@
 use askama::Template;
-
 use axum::http::StatusCode;
 use axum::response::Html;
 use axum::response::IntoResponse;
 use axum::response::Response;
+use derive_more::From;
 
-#[derive(Debug)]
+#[derive(Debug, From)]
 pub enum Error {
     Askama(askama::Error),
     Sqlx(sqlx::Error),
@@ -16,30 +16,6 @@ pub enum Error {
 #[derive(Template)]
 #[template(path = "error.html")]
 struct ErrorPage(StatusCode);
-
-impl From<askama::Error> for Error {
-    fn from(e: askama::Error) -> Self {
-        Error::Askama(e)
-    }
-}
-
-impl From<sqlx::Error> for Error {
-    fn from(e: sqlx::Error) -> Self {
-        Error::Sqlx(e)
-    }
-}
-
-impl From<StatusCode> for Error {
-    fn from(s: StatusCode) -> Self {
-        Error::Status(s)
-    }
-}
-
-impl From<syntect::Error> for Error {
-    fn from(e: syntect::Error) -> Self {
-        Error::Syntect(e)
-    }
-}
 
 impl IntoResponse for Error {
     fn into_response(self) -> Response {

@@ -38,6 +38,11 @@ version = "0.4"
 default-features = false
 features = ["clock", "std"]
 
+[dependencies.derive_more]
+version = "0.99.17"
+default-features = false
+features = ["from"]
+
 [dependencies.syntect]
 version = "5.0"
 
