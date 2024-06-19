@@ -36,6 +36,7 @@ impl Display for Text {
     }
 }
 
+#[allow(dead_code)]
 #[derive(FromRow)]
 pub struct ListRow {
     pub id: Text,
@@ -70,6 +71,7 @@ impl ListRow {
     }
 }
 
+#[allow(dead_code)]
 #[derive(FromRow)]
 pub struct TextRow {
     pub id: Text,

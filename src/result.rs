@@ -5,6 +5,7 @@ use axum::response::IntoResponse;
 use axum::response::Response;
 use derive_more::From;
 
+#[allow(dead_code)]
 #[derive(Debug, From)]
 pub enum Error {
     Askama(askama::Error),
