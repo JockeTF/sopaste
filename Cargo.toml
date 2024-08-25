@@ -46,7 +46,7 @@ features = ["from"]
 version = "5.0"
 
 [dependencies.sqlx]
-version = "0.7"
+version = "0.8.1"
 features = ["chrono", "mysql", "runtime-tokio"]
 
 [dependencies.tokio]
