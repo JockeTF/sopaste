@@ -90,7 +90,7 @@ pub fn routes() -> Router<AppState> {
     Router::new()
         .route("/", get(index))
         .route("/about", get(about))
-        .route("/:id", get(paste))
-        .route("/:id/raw", get(raw))
-        .route("/:id/tree", get(tree))
+        .route("/{id}", get(paste))
+        .route("/{id}/raw", get(raw))
+        .route("/{id}/tree", get(tree))
 }
