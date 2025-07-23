@@ -17,7 +17,7 @@ default = []
 source = []
 
 [dependencies.askama]
-version = "0.12"
+version = "0.14.0"
 
 [dependencies.axum]
 version = "0.8.4"
